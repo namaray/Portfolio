@@ -15,53 +15,25 @@ import {
 export const projects = [
   {
     priority: 1,
-    title: 'Project Alpha',
+    title: '[Your First Project Name]',
     shortDescription:
-      'A groundbreaking project that revolutionizes the way we approach technology. Built with cutting-edge tools for maximum efficiency, it sets new industry standards.',
+      '[Short description of your project. E.g., Built an image classifier. Tools used: Python, PyTorch, Raspberry Pi]',
     cover:
-      'https://images.unsplash.com/photo-1585282263861-f55e341878f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    livePreview: 'https://example.com/alpha',
-    type: 'Client Work 🙍‍♂️',
-    siteAge: '1 month old',
+      'https://images.unsplash.com/photo-1585282263861-f55e341878f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3',
+    livePreview: '#',
+    githubLink: '[Link to GitHub repo]',
+    type: 'Academic 🎓',
   },
   {
     priority: 2,
-    title: 'Project Beta',
+    title: '[Your Second Project Name]',
     shortDescription:
-      'Project Beta is a static technical blog site built with GatsbyJS. I share tips on topics like building reusable components in React, explaining JavaScript methods and concepts, Node.js scripts, and more.',
+      '[Short description of your second project. Tools used: Docker, Linux, OpenCV]',
     cover:
-      'https://plus.unsplash.com/premium_photo-1663040328859-48bddaa9dfeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    livePreview: 'https://example.com/beta',
-    visitors: '8K Visitors',
-    earned: '$400 Earned',
-  },
-  {
-    priority: 3,
-    title: 'Project Epsilon',
-    shortDescription:
-      'A collection of engaging coding challenges designed to help developers improve their ReactJS skills by writing functional business logic. Your task is to make it functional by writing business logic, to improve your frontend skills',
-    cover:
-      'https://plus.unsplash.com/premium_photo-1661700152890-931fb04588e6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-
-    type: 'Free 🔥',
-    livePreview: 'https://example.com/epsilon',
-    githubLink: 'https://github.com/example/ReactJS-Coding-Challenges',
-    githubStars: '40 Stars',
-    numberOfSales: '138 Sales',
-  },
-  {
-    priority: 4,
-    title: 'Ejucationzz',
-    shortDescription:
-      'Ejucationzz is a directory site I created for myself using Next.js. On Ejucationzz, you can find free and paid online and offline courses available in Pakistan. 14 academies and 12 main categories, each with subcategories, have been listed. Ejucationzz is a directory site I created for myself using Next.js. On Ejucationzz, you can find free and paid online and offline courses available in Pakistan. 14 academies and 12 main categories, each with subcategories, have been listed.',
-    cover:
-      'https://images.unsplash.com/photo-1527334919515-b8dee906a34b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    type: 'New 🔥',
-    livePreview: 'https://example.com/Ejucationzz',
-    siteAge: '4 months old',
-    visitors: '100 Visitors',
-    githubLink: '',
-    earned: '',
+      'https://plus.unsplash.com/premium_photo-1663040328859-48bddaa9dfeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3',
+    livePreview: '#',
+    githubLink: '[Link to GitHub repo]',
+    type: 'Personal 👨‍💻',
   },
 ]
 
@@ -102,36 +74,32 @@ export const serviceData = [
 // Skill List
 export const skillList = [
   {
-    name: 'JavaScript',
-    icon: JavaScriptIcon,
+    name: 'Python',
+    icon: JavaScriptIcon, // Note: using placeholders for icons, update to real icons in utils/icons.tsx if needed
   },
   {
-    name: 'TypeScript',
+    name: 'PyTorch',
     icon: TypescriptIcon,
   },
   {
-    name: 'React.js',
+    name: 'Docker',
     icon: ReactIcon,
   },
   {
-    name: 'Next.js',
+    name: 'Linux',
     icon: NextjsIcon,
   },
   {
-    name: 'Node.js',
+    name: 'OpenCV',
     icon: NodejsIcon,
   },
   {
-    name: 'Express.js',
+    name: 'C++',
     icon: ExpressjsIcon,
   },
   {
-    name: 'Nest.js',
+    name: 'Git',
     icon: NestjsIcon,
-  },
-  {
-    name: 'Socket.io',
-    icon: SocketIcon,
   },
 ]
 

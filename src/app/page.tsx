@@ -1,26 +1,28 @@
-import { skillList } from '@/appData'
-import ContactSection from '@/components/Contact/ContactSection'
-import Hero from '@/components/Hero/Hero'
-import ProjectSection from '@/components/Projects/ProjectSection'
-import ServiceSection from '@/components/Services/ServiceSection'
-import Skills from '@/components/Skills/Skills'
-import TestimonialSection from '@/components/Testimonials/TestimonialSection'
-import { getAllProjects, getAllTestimonials } from '@/services'
+import HeroSection from '@/components/HeroSection';
+import AboutSection from '@/components/AboutSection';
+import ExperienceSection from '@/components/ExperienceSection';
+import ProjectsSection from '@/components/ProjectsSection';
+import SkillsSection from '@/components/SkillsSection';
+import AchievementsSection from '@/components/AchievementsSection';
+import Footer from '@/components/Footer';
 
-export default async function Home() {
-  const projects = await getAllProjects()
-  const testimonials = await getAllTestimonials()
-
+export default function Home() {
   return (
-    <main>
-      <Hero />
-      <Skills skills={skillList} />
-      <div className="mx-auto my-8 max-w-[1200px] px-4 md:my-[3.75rem]">
-        <ProjectSection projects={projects} />
-        <ServiceSection />
-        <TestimonialSection testimonials={testimonials} />
-        <ContactSection />
+    <main className="bg-[#0b1020] min-h-screen relative overflow-hidden">
+      {/* Global Animated Background Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-[#00d2ff]/10 rounded-full blur-[120px] animate-float"></div>
+        <div className="absolute top-[30%] right-[-10%] w-[40rem] h-[40rem] bg-purple-500/10 rounded-full blur-[150px] animate-float-delayed"></div>
+        <div className="absolute bottom-[-10%] left-[20%] w-[50rem] h-[50rem] bg-blue-600/10 rounded-full blur-[150px] animate-float"></div>
       </div>
+
+      <HeroSection />
+      <AboutSection />
+      <ExperienceSection />
+      <ProjectsSection />
+      <SkillsSection />
+      <AchievementsSection />
+      <Footer />
     </main>
-  )
+  );
 }
