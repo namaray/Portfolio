@@ -32,31 +32,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h3 className="text-xl font-bold text-accent mb-6">References</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
-              <div className="bg-secondary/30 p-4 rounded-xl border border-white/5">
-                <h4 className="font-bold text-neutral">Novia Nurain</h4>
-                <p className="text-sm text-neutral/70 mb-2">Assistant Professor, Department of CSE, BUET & UIU</p>
-                <a href="mailto:nnurain.cse.buet.ac.bd" className="text-sm text-accent hover:underline">nnurain.cse.buet.ac.bd</a>
-              </div>
-              
-              <div className="bg-secondary/30 p-4 rounded-xl border border-white/5">
-                <h4 className="font-bold text-neutral">Dr. Md. Motaharul Islam</h4>
-                <p className="text-sm text-neutral/70 mb-2">Professor, Department of CSE, United International University</p>
-                <a href="mailto:motaharul@cse.uiu.ac.bd" className="text-sm text-accent hover:underline">motaharul@cse.uiu.ac.bd</a>
-              </div>
-              
-              <div className="bg-secondary/30 p-4 rounded-xl border border-white/5">
-                <h4 className="font-bold text-neutral">Timothy Averell</h4>
-                <p className="text-sm text-neutral/70 mb-2">Program Manager, Customer Success, Transperfect DataForce</p>
-                <a href="mailto:taverell@transperfect.com" className="text-sm text-accent hover:underline">taverell@transperfect.com</a>
-              </div>
-
-            </div>
-          </div>
-
         </div>
         
         <div className="text-center pt-8 border-t border-white/5 text-neutral/50 text-sm">
