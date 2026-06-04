@@ -13,7 +13,7 @@ const projects = [
   {
     title: 'Maternify',
     subtitle: 'Prenatal & Postnatal Health Tracker',
-    description: 'A prenatal/postnatal symptom tracking platform with intelligent risk-flag generation to help expecting and new mothers monitor their health. Role: Data modelling & backend development.',
+    description: 'A prenatal/postnatal symptom tracking platform with intelligent risk-flag generation to help expecting and new mothers monitor their health. Role: Main front end designer.',
     tech: ['Python', 'AI APIs', 'React'],
     link: '#',
     githubLink: '',
@@ -21,7 +21,7 @@ const projects = [
   {
     title: 'Us',
     subtitle: 'AI Couples Conflict Resolution App',
-    description: 'An LLM-powered conversation analysis tool that detects sentiment shifts and conflict patterns in couple communications, providing actionable insights for healthier relationships. Role: AI pipeline development.',
+    description: 'An LLM-powered conversation analysis tool that detects sentiment shifts and conflict patterns in couple communications, providing actionable insights for healthier relationships. Role: Main front end designer.',
     tech: ['Python', 'NLP', 'AI APIs', 'React'],
     link: '#',
     githubLink: '',
