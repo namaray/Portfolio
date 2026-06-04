@@ -6,7 +6,6 @@ import {
   NextjsIcon,
   NodejsIcon,
   ReactIcon,
-  SocketIcon,
   TailwindCSS,
   TypescriptIcon,
 } from '../utils/icons'

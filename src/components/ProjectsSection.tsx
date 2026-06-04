@@ -73,18 +73,7 @@ export default function ProjectsSection() {
                   {project.description}
                 </p>
                 
-                {/* @ts-ignore */}
-                {project.youtubeId && (
-                  <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 mb-6">
-                    <iframe 
-                      src={`https://www.youtube.com/embed/${project.youtubeId}`}
-                      title={project.title}
-                      className="absolute top-0 left-0 w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                )}
+
 
                 <div className="flex flex-wrap gap-2 mt-auto mb-6">
                   {project.tech.map((t, i) => (
@@ -94,7 +83,6 @@ export default function ProjectsSection() {
                   ))}
                 </div>
                 
-                {/* @ts-ignore */}
                 {project.githubLink && (
                   <div>
                     <a 
