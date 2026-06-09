@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 import Navbar from '@/components/Navbar/Navbar'
-import { Fira_Code } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
-const firaCode = Fira_Code({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] })
+const inter = Inter({ subsets: ['latin'] })
 
 const title = 'Namare Shakib Angkon | CSE Portfolio'
 
@@ -25,14 +25,14 @@ export const metadata: Metadata = {
     title,
     description,
     url,
-    siteName: 'John Doe Portfolio',
+    siteName: 'Namare Shakib Angkon Portfolio',
     type: 'website',
   },
   twitter: {
     title,
     description,
     card: 'summary_large_image',
-    creator: '@Basit_Miyanji',
+    creator: '@namare_shakib',
   },
 }
 
@@ -42,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark">
-      <body className={`${firaCode.className}`}>
+    <html lang="en">
+      <body className={`${inter.className} bg-background text-foreground`}>
         <header>
           <Navbar />
         </header>
