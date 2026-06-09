@@ -29,7 +29,7 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-8 py-8 mix-blend-difference text-white">
         <Link href="/" className="text-3xl font-bold tracking-tighter hover:scale-105 transition-transform uppercase">
-          NA.
+          NSA.
         </Link>
         <button 
           onClick={() => setIsOpen(true)}
