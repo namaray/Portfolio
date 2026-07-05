@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 import Navbar from '@/components/Navbar/Navbar'
+import ChatWidget from '@/components/UI/ChatWidget'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -48,6 +49,7 @@ export default function RootLayout({
           <Navbar />
         </header>
         {children}
+        <ChatWidget />
       </body>
     </html>
   )
