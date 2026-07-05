@@ -106,11 +106,11 @@ export default function ChatWidget() {
                     }`}
                   >
                     {msg.role === "bot" ? (
-                      <ReactMarkdown
-                        className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-snug prose-ul:my-1 prose-li:my-0 prose-h1:text-base prose-h2:text-sm prose-h3:text-sm"
-                      >
-                        {msg.content}
-                      </ReactMarkdown>
+                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-snug prose-ul:my-1 prose-li:my-0 prose-h1:text-base prose-h2:text-sm prose-h3:text-sm">
+                        <ReactMarkdown>
+                          {msg.content}
+                        </ReactMarkdown>
+                      </div>
                     ) : (
                       msg.content
                     )}
