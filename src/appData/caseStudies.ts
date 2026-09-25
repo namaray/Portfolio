@@ -26,32 +26,27 @@ export const workflow = [
   {
     step: 'Understand',
     duty: 'Identify user pain points',
-    proof: 'Rewrote ReplayCS screens after noticing new learners faced competing buttons and a six-field form before their first lesson.',
-    href: '#replaycs',
+    text: 'Find out where users get stuck, and why, before jumping to a solution.',
   },
   {
     step: 'Specify',
     duty: 'Document feature requirements',
-    proof: 'Captured ShareStrength in an SRS before building, and wrote the Oushudh Bondhu product write-up: problem, scope, architecture, limitations.',
-    href: '#oushudh-bondhu',
+    text: 'Write down what we are building and why, so everyone agrees before work starts.',
   },
   {
     step: 'Prototype',
     duty: 'Wireframes & user flows',
-    proof: 'Drew the Oushudh Bondhu user-flow and architecture diagrams, including every failure path the UI must handle.',
-    href: '#oushudh-bondhu',
+    text: 'Sketch the flow and screens early, while ideas are still cheap to change.',
   },
   {
     step: 'Build',
     duty: 'Develop web applications',
-    proof: 'Shipped a client landing page in plain HTML/CSS/JS, UI work in SvelteKit/TypeScript, and a PHP/MySQL platform.',
-    href: '#heaven-furniture-mart',
+    text: 'Turn the plan into a working web app that is simple and accessible to use.',
   },
   {
     step: 'Verify',
     duty: 'UAT, bugs & fixes',
-    proof: 'Updated the Playwright end-to-end specs for my redesigns; every PR went through CI: type-check, unit tests, build and browser tests.',
-    href: '#replaycs',
+    text: 'Test it like a user, log bugs clearly, and confirm every fix before closing it.',
   },
 ]
 

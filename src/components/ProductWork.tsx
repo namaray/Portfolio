@@ -180,23 +180,19 @@ export default function ProductWork() {
           </motion.h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/5 border border-white/5 rounded-3xl overflow-hidden">
             {workflow.map((item, i) => (
-              <motion.a
+              <motion.div
                 key={item.step}
-                href={item.href}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
-                className="group bg-background p-8 flex flex-col hover:bg-white/[0.03] transition-colors"
+                className="bg-background p-8 flex flex-col"
               >
                 <span className="text-accent font-bold tracking-widest text-sm mb-6">0{i + 1}</span>
                 <span className="text-2xl font-black uppercase tracking-tight text-white mb-2">{item.step}</span>
                 <span className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">{item.duty}</span>
-                <span className="text-gray-400 leading-relaxed mb-8">{item.proof}</span>
-                <span className="mt-auto text-xs font-bold uppercase tracking-widest text-white group-hover:text-accent transition-colors">
-                  See the work →
-                </span>
-              </motion.a>
+                <span className="text-gray-400 leading-relaxed">{item.text}</span>
+              </motion.div>
             ))}
           </div>
         </div>
