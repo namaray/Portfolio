@@ -58,7 +58,7 @@ export default function ExperienceSection() {
                   <span className="text-gray-500 font-medium">2022 — Current</span>
                 </div>
                 <div className="inline-block px-4 py-2 border border-white/10 rounded-lg text-gray-300 font-medium">
-                  CGPA: 3.74 / 4.00
+                  CGPA: 3.78 / 4.00
                 </div>
               </motion.div>
 

@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const projects = [
   {
@@ -134,6 +135,14 @@ export default function ProjectsSection() {
             <ProjectCard key={idx} project={project} index={idx} />
           ))}
         </div>
+
+        <Link
+          href="/product"
+          className="group mt-32 inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-white hover:text-accent transition-colors"
+        >
+          Product & web case studies
+          <span className="w-8 h-[2px] bg-white group-hover:bg-accent group-hover:w-12 transition-all duration-300"></span>
+        </Link>
       </div>
     </section>
   );
