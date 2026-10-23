@@ -1,100 +1,177 @@
 'use client';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { Highlight, Arrow, Star } from '@/components/Notebook/Doodles';
+import { Polaroid, StickyNote } from '@/components/Notebook/Paper';
 
-const TITLES = ['Developer', 'Innovator', 'Designer', 'Engineer'];
+const TITLES = ['researcher', 'engineer', 'designer', 'developer'];
 
-export default function HeroSection() {
-  const [titleIndex, setTitleIndex] = useState(0);
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 50 && showScrollIndicator) {
-      setShowScrollIndicator(false);
-    } else if (latest <= 50 && !showScrollIndicator) {
-      setShowScrollIndicator(true);
-    }
-  });
+// "Student + ___": each word gets scribbled out in red pen before the next is written in
+function ScribbledTitle() {
+  const [index, setIndex] = useState(0);
+  const [struck, setStruck] = useState(false);
 
   useEffect(() => {
+    let swap: ReturnType<typeof setTimeout>;
     const interval = setInterval(() => {
-      setTitleIndex((prev) => (prev + 1) % TITLES.length);
-    }, 3000);
-    return () => clearInterval(interval);
+      setStruck(true);
+      swap = setTimeout(() => {
+        setIndex((i) => (i + 1) % TITLES.length);
+        setStruck(false);
+      }, 700);
+    }, 2800);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(swap);
+    };
   }, []);
-  return (
-    <section id="hero" className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 relative overflow-hidden bg-background">
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-accent/10 blur-[150px]"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-blue-900/10 blur-[120px]"></div>
-      </div>
 
-      <div className="relative z-10 max-w-[1400px] flex flex-col md:flex-row items-start md:items-center justify-between gap-12 mt-20 md:mt-0">
+  return (
+    <span className="relative inline-block min-w-[6.5ch] text-left align-baseline">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ clipPath: 'inset(0 100% 0 0)' }}
+          animate={{ clipPath: 'inset(0 0% 0 0)' }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="inline-block text-ink"
+        >
+          {TITLES[index]}
+        </motion.span>
+      </AnimatePresence>
+      <motion.svg
+        aria-hidden
+        viewBox="0 0 200 40"
+        preserveAspectRatio="none"
+        className="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-[0.7em] pointer-events-none overflow-visible"
+        initial={false}
+        animate={{ clipPath: struck ? 'inset(-50% 0% -50% 0)' : 'inset(-50% 100% -50% 0)' }}
+        transition={{ duration: struck ? 0.45 : 0 }}
+      >
+        <path
+          d="M2 24 L 30 14 L 50 28 L 80 12 L 110 26 L 140 12 L 170 26 L 198 14"
+          fill="none"
+          stroke="var(--color-red-pen)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </motion.svg>
+    </span>
+  );
+}
+
+const focus = [
+  'HCI & accessibility research',
+  'Computer vision on edge devices',
+  'Embedded hardware & 3D printing',
+  'Full-stack web apps',
+];
+
+export default function HeroSection() {
+  return (
+    <section id="hero" className="relative pl-10 pr-5 md:pl-28 md:pr-14 pt-10 md:pt-16 pb-20 md:pb-28">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-wrap justify-between gap-2 font-mono text-[11px] md:text-xs uppercase tracking-[0.2em] text-pencil mb-10 md:mb-16"
+      >
+        <span>Field notebook · Vol. 04</span>
+        <span>Dhaka, Bangladesh</span>
+      </motion.div>
+
+      <div className="grid lg:grid-cols-[1fr_340px] gap-14 lg:gap-10 items-start">
         <div>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-accent tracking-[0.3em] uppercase text-sm md:text-base font-semibold mb-6 ml-1 md:ml-2"
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="font-serif text-[15vw] sm:text-7xl md:text-8xl lg:text-[104px] font-semibold tracking-tight leading-[0.9] text-ink"
           >
-            Namare Shakib Angkon
-          </motion.p>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-[14vw] sm:text-[12vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.9] tracking-tighter text-white"
-          >
-            <span className="block hover:animate-glitch transition-all duration-300">Student</span>
-            <div className="h-[1.2em] overflow-hidden text-gray-600 hover:text-white transition-colors duration-500">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={titleIndex}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                  className="block"
-                >
-                  + {TITLES[titleIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+            Namare Shakib
+            <br />
+            <span className="relative inline-block">
+              Angkon
+              <Star className="absolute -right-12 -top-2 w-9 h-9 md:w-11 md:h-11 rotate-12" />
+            </span>
           </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="font-hand text-4xl md:text-5xl text-ink-soft mt-6 md:mt-8"
+          >
+            Student + <ScribbledTitle />
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-8 max-w-[34rem] text-xl md:text-2xl leading-relaxed text-ink-soft"
+          >
+            Final-year CSE student at United International University. I build{' '}
+            <Highlight>accessible technology</Highlight> — smart glasses for people with visual impairments, a
+            portable Braille printer — and I <Highlight color="pink">test it with the people</Highlight> who will
+            use it.
+          </motion.p>
+
+          <motion.ul
+            initial="hidden"
+            animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.12, delayChildren: 0.8 } } }}
+            className="mt-8 space-y-1.5"
+          >
+            {focus.map((item) => (
+              <motion.li
+                key={item}
+                variants={{ hidden: { opacity: 0, x: -8 }, visible: { opacity: 1, x: 0 } }}
+                className="flex items-center gap-3 font-hand text-2xl md:text-[28px] text-ink"
+              >
+                <span aria-hidden className="relative inline-flex w-5 h-5 border-2 border-ink/70 rounded-[3px] shrink-0">
+                  <svg viewBox="0 0 20 20" className="absolute -top-1.5 -left-0.5 w-6 h-6 overflow-visible">
+                    <path d="M3 10 L8 15 L19 1" fill="none" stroke="var(--color-red-pen)" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                {item}
+              </motion.li>
+            ))}
+          </motion.ul>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.3 }}
+            className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4"
+          >
+            <a
+              href="#contact"
+              className="inline-block bg-ink text-paper px-6 py-3 font-mono text-sm uppercase tracking-widest rounded-[3px] shadow-[3px_3px_0_var(--color-red-pen)] hover:shadow-[1px_1px_0_var(--color-red-pen)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+            >
+              Write to me
+            </a>
+            <a href="#projects" className="font-hand text-3xl text-ink hover:text-red-pen transition-colors">
+              flip to the projects ↓
+            </a>
+          </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-2 border-white/10 shrink-0"
-        >
-          <Image 
-            src="/profile.jpg" 
-            alt="Namare Shakib Angkon" 
-            fill 
-            className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            priority
-          />
-        </motion.div>
-      </div>
+        <div className="relative mx-auto w-full max-w-[300px] lg:mt-6">
+          <Polaroid src="/profile.jpg" alt="Namare Shakib Angkon" caption="me, mid-build" rotate={3} aspect="aspect-[4/5]" priority />
+          <Arrow className="hidden lg:block absolute -left-24 top-24 w-24 -scale-x-100 rotate-[200deg]" />
 
-      <AnimatePresence>
-        {showScrollIndicator && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.4 }}
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden md:flex items-center justify-center border border-gray-700 w-10 h-16 rounded-full"
-          >
-            <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <StickyNote rotate={-4} className="mt-10 lg:mt-0 lg:absolute lg:-left-16 lg:-bottom-32 w-60 mx-auto">
+            <p className="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-1">Right now</p>
+            <p className="font-hand text-[26px] leading-[1.1] text-ink">
+              Building <strong>ARGUS</strong>: on-device AI glasses that help visually impaired people navigate. (My thesis!)
+            </p>
+          </StickyNote>
+        </div>
+      </div>
     </section>
   );
 }

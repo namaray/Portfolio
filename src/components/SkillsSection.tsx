@@ -1,116 +1,81 @@
 'use client';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { Highlight, type HighlightColor } from '@/components/Notebook/Doodles';
+import { PageHeading, Tape } from '@/components/Notebook/Paper';
 
-const skills = [
-  { name: 'C/C++', icon: '/ISO_C++_Logo.svg.png' },
-  { name: 'Java', icon: '/Java_programming_language_logo.svg.png' },
-  { name: 'Python', icon: '/Python-logo-notext.svg.png' },
-  { name: 'HTML', icon: '/HTML5_logo_and_wordmark.svg.png' },
-  { name: 'CSS', icon: '/css.png' },
-  { name: 'JavaScript', icon: '/JavaScript.webp' },
-  { name: 'PHP', icon: '/PHP-logo.svg' },
-  { name: 'MySQL', icon: '/mysql-logo-png_seeklogo-231538.png' },
-  { name: 'Arduino', icon: '/Arduino_Logo.svg.png' },
-  { name: 'Raspberry Pi', icon: '/Raspberry_Pi_Logo.svg.png' },
-];
-
-const frameworks = [
-  { name: 'Tailwind CSS', icon: '/tailwind-css-logo-rounded-free-png.webp' },
-  { name: 'Laravel', icon: '/Laravel.svg.png' },
-  { name: 'MongoDB', icon: '/mongodb.png' },
-  { name: 'Express.js', icon: '/expressjs.png' },
-  { name: 'React', icon: '/React-icon.svg.png' },
-  { name: 'Node.js', icon: '/Node.js_logo.svg.png' },
+const groups: { title: string; color: HighlightColor; items: string[] }[] = [
+  {
+    title: 'Research methods',
+    color: 'pink',
+    items: ['Focus groups', 'Usability testing', 'Thematic analysis', 'User-centered design', 'Qualtrics · Taguette'],
+  },
+  {
+    title: 'AI & vision',
+    color: 'blue',
+    items: ['Stereo depth', 'Segmentation', 'Object detection & tracking', 'OCR', 'Whisper / TTS', 'Quantized LLMs'],
+  },
+  {
+    title: 'Languages',
+    color: 'yellow',
+    items: ['Python', 'C / C++', 'Java', 'JavaScript', 'PHP', 'SQL', 'HTML / CSS'],
+  },
+  {
+    title: 'Web',
+    color: 'green',
+    items: ['React', 'Vite', 'Tailwind CSS', 'Laravel', 'MySQL', 'REST APIs'],
+  },
+  {
+    title: 'Hardware',
+    color: 'pink',
+    items: ['Jetson Orin Nano Super', 'Raspberry Pi', 'Arduino', 'Stepper motor control', '3D printing'],
+  },
 ];
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="py-32 px-8 md:px-16 lg:px-24 bg-background border-t border-white/5 overflow-hidden">
-      <div className="max-w-[1400px]">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-20"
-        >
-          Arsenal
-        </motion.h2>
+    <section id="skills" className="relative pl-10 pr-5 md:pl-28 md:pr-14 py-20 md:py-28 border-t-2 border-dashed border-rule scroll-mt-14">
+      <PageHeading page="03" kicker="Toolbox" title="What’s in the pencil case" />
 
-        <div className="mb-20">
-          <motion.h3 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl font-bold text-gray-400 mb-10 tracking-widest uppercase"
-          >
-            Languages & Tools
-          </motion.h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-            {skills.map((skill, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="flex flex-col items-center justify-center p-8 bg-[#111729] rounded-2xl border border-white/5 hover:border-accent hover:shadow-[0_0_30px_rgba(0,210,255,0.15)] transition-all duration-300 group"
-              >
-                <div className="relative w-16 h-16 mb-4 grayscale group-hover:grayscale-0 transition-all duration-300">
-                  <Image 
-                    src={skill.icon} 
-                    alt={skill.name} 
-                    fill 
-                    className="object-contain" 
-                  />
-                </div>
-                <span className="text-sm font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors text-center">
-                  {skill.name}
-                </span>
-              </motion.div>
-            ))}
+      <motion.div
+        initial={{ opacity: 0, y: 30, rotate: 0 }}
+        whileInView={{ opacity: 1, y: 0, rotate: -0.6 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.7 }}
+        className="relative paper-grid p-6 md:p-10 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_16px_32px_-16px_rgba(29,43,79,0.35)]"
+      >
+        <Tape className="-top-3 left-10" rotate={-6} />
+        <Tape className="-top-3 right-10" rotate={5} />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+          {groups.map((g, gi) => (
+            <div key={g.title}>
+              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-pencil mb-3">
+                <span className="text-red-pen">{String.fromCharCode(65 + gi)}.</span> {g.title}
+              </h3>
+              <ul className="space-y-0.5">
+                {g.items.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    initial={{ opacity: 0, x: -6 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: 0.15 + i * 0.06 }}
+                    className="font-hand text-[28px] leading-[1.25] text-ink"
+                  >
+                    {i === 0 ? <Highlight color={g.color}>{item}</Highlight> : item}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <div className="flex items-end">
+            <p className="font-hand text-2xl leading-snug text-red-pen rotate-[-3deg]">
+              + always learning whatever the next project needs
+            </p>
           </div>
         </div>
-
-        <div>
-          <motion.h3 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl font-bold text-gray-400 mb-10 tracking-widest uppercase text-center md:text-left"
-          >
-            Frameworks
-          </motion.h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {frameworks.map((framework, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="flex flex-col items-center justify-center p-8 bg-[#111729] rounded-2xl border border-white/5 hover:border-accent hover:shadow-[0_0_30px_rgba(0,210,255,0.15)] transition-all duration-300 group"
-              >
-                <div className="relative w-16 h-16 mb-4 grayscale group-hover:grayscale-0 transition-all duration-300">
-                  <Image 
-                    src={framework.icon} 
-                    alt={framework.name} 
-                    fill 
-                    className="object-contain" 
-                  />
-                </div>
-                <span className="text-sm font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors text-center">
-                  {framework.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-      </div>
+      </motion.div>
     </section>
   );
 }

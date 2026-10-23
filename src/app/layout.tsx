@@ -3,9 +3,22 @@ import './globals.css'
 
 import Navbar from '@/components/Navbar/Navbar'
 import ChatWidget from '@/components/UI/ChatWidget'
-import { Inter } from 'next/font/google'
+import { Caveat, Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+
+// Notebook theme fonts, exposed as CSS variables for globals.css
+const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat' })
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  axes: ['opsz', 'SOFT'],
+})
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-plex-mono',
+})
 
 const title = 'Namare Shakib Angkon | CSE Portfolio'
 
@@ -43,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${caveat.variable} ${fraunces.variable} ${plexMono.variable}`}>
       <body className={`${inter.className} bg-background text-foreground`}>
         <header>
           <Navbar />

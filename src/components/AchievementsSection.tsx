@@ -1,148 +1,150 @@
 'use client';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { PageHeading, Polaroid, StickyNote } from '@/components/Notebook/Paper';
+
+type Medal = 'gold' | 'silver' | 'bronze';
+
+const MEDAL = {
+  gold: { bg: 'bg-[#f2c94c]', ring: 'ring-[#c99a1c]', label: 'Champion' },
+  silver: { bg: 'bg-[#d5d9e0]', ring: 'ring-[#9aa1ad]', label: '1st runner-up' },
+  bronze: { bg: 'bg-[#e0a676]', ring: 'ring-[#b0703d]', label: '2nd runner-up' },
+};
+
+const groups: { title: string; note: string; wins: { name: string; by: string; medal: Medal }[] }[] = [
+  {
+    title: 'Poster competitions',
+    note: 'science & tech fests',
+    wins: [
+      { name: 'Robolution 2025', by: 'MIST Robotics Club', medal: 'gold' },
+      { name: 'R&I Week 2025', by: 'UIU', medal: 'gold' },
+      { name: '1st S.N. Bose National Science Festival', by: 'BRAC', medal: 'silver' },
+    ],
+  },
+  {
+    title: 'UIU CSE project shows',
+    note: 'four shows, four podiums',
+    wins: [
+      { name: 'FYDP 1 (undergraduate thesis)', by: 'Fall 2025', medal: 'silver' },
+      { name: 'Microprocessor Lab', by: 'Summer 2025', medal: 'silver' },
+      { name: 'Electronics Lab', by: 'Spring 2025', medal: 'silver' },
+      { name: 'System Analysis & Design Lab', by: 'Spring 2025', medal: 'bronze' },
+    ],
+  },
+];
+
+const notes = [
+  {
+    color: 'yellow' as const,
+    kicker: 'Launchpad by UIHP@UIU',
+    title: 'Pre-seed funding',
+    body: 'BDT 20,000 for ShareStrength, through the DEIED project (ICT Division & World Bank).',
+  },
+  {
+    color: 'blue' as const,
+    kicker: 'Competition',
+    title: 'Finalist',
+    body: 'National Blockchain Olympiad (BCOL) 2025.',
+  },
+  {
+    color: 'pink' as const,
+    kicker: 'Writing',
+    title: 'Bronze medal',
+    body: 'The Queen’s Commonwealth Essay Competition.',
+  },
+  {
+    color: 'green' as const,
+    kicker: 'Scholarships · UIU',
+    title: '6 tuition waivers',
+    body: '50% waiver four times and 25% waiver twice.',
+  },
+];
+
+function Sticker({ medal }: { medal: Medal }) {
+  const m = MEDAL[medal];
+  return (
+    <span
+      title={m.label}
+      className={`relative inline-flex items-center justify-center w-9 h-9 rounded-full ${m.bg} ring-2 ${m.ring} shadow-[0_2px_3px_rgba(0,0,0,0.2)] shrink-0`}
+    >
+      <svg aria-hidden viewBox="0 0 24 24" className="w-5 h-5">
+        <path d="M12 2.5l2.8 6 6.5.6-4.9 4.4 1.4 6.4L12 16.6l-5.8 3.3 1.4-6.4L2.7 9.1l6.5-.6z" fill="white" fillOpacity="0.9" />
+      </svg>
+    </span>
+  );
+}
 
 export default function AchievementsSection() {
   return (
-    <section id="achievements" className="py-32 px-8 md:px-16 lg:px-24 bg-background">
-      <div className="max-w-[1400px]">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-20"
-        >
-          Achievements
-        </motion.h2>
+    <section id="achievements" className="relative pl-10 pr-5 md:pl-28 md:pr-14 py-20 md:py-28 border-t-2 border-dashed border-rule scroll-mt-14">
+      <PageHeading page="05" kicker="Achievements" title="Gold stars" note="collected along the way" />
 
-        <div className="flex flex-col gap-32">
-          
-          {/* Achievement 1: UIU R&I Week */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col lg:flex-row items-center gap-16 border-t border-gray-800 pt-16"
-          >
-            <div className="flex-1">
-              <div className="text-sm font-bold tracking-widest text-accent uppercase mb-2">Scientific Poster Presentation</div>
-              <h3 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Science & Tech Fests</h3>
-              <ul className="space-y-4 text-gray-400 text-lg">
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">Robolution 2025 <span className="text-sm text-gray-500 font-normal">– MIST Robotics Club</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-yellow-500/10 text-yellow-500 px-3 py-1.5 rounded-lg border border-yellow-500/30"><span className="text-lg">🏆</span> Champion</span>
-                </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">R&I Week 2025 <span className="text-sm text-gray-500 font-normal">– UIU</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-yellow-500/10 text-yellow-500 px-3 py-1.5 rounded-lg border border-yellow-500/30"><span className="text-lg">🏆</span> Champion</span>
-                </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">1st S.N. Bose National Science Festival <span className="text-sm text-gray-500 font-normal">– BRAC</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-white/10 text-white px-3 py-1.5 rounded-lg border border-white/10"><span className="text-lg">🥈</span> 1st Runner-Up</span>
-                </li>
+      <div className="grid lg:grid-cols-[1fr_380px] gap-14 lg:gap-12">
+        <div className="space-y-14">
+          {groups.map((g) => (
+            <div key={g.title}>
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-5">
+                <h3 className="font-serif text-3xl font-semibold text-ink">{g.title}</h3>
+                <span className="font-hand text-2xl text-red-pen">{g.note}</span>
+              </div>
+              <ul className="space-y-3">
+                {g.wins.map((w, i) => (
+                  <motion.li
+                    key={w.name}
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
+                    className="flex items-center gap-4"
+                  >
+                    <motion.span
+                      initial={{ scale: 0, rotate: -40 }}
+                      whileInView={{ scale: 1, rotate: [8, -6, 0][i % 3] }}
+                      viewport={{ once: true }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 14, delay: 0.2 + i * 0.1 }}
+                      className="inline-flex"
+                    >
+                      <Sticker medal={w.medal} />
+                    </motion.span>
+                    <div className="flex-1 flex flex-wrap items-baseline justify-between gap-x-4 border-b border-dotted border-pencil/50 pb-1">
+                      <span className="text-lg md:text-xl text-ink">
+                        {w.name} <span className="text-ink-soft text-base">· {w.by}</span>
+                      </span>
+                      <span className="font-mono text-xs uppercase tracking-wider text-pencil">{MEDAL[w.medal].label}</span>
+                    </div>
+                  </motion.li>
+                ))}
               </ul>
             </div>
-            <div className="lg:w-[500px] w-full shrink-0 relative aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-              <Image src="/R&Iweek.jpg" alt="UIU R&I Week" fill className="object-cover" />
-            </div>
-          </motion.div>
-
-          {/* Achievement 2: Pre-Seed Funding */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col-reverse lg:flex-row items-center gap-16 border-t border-gray-800 pt-16"
-          >
-             <div className="lg:w-[500px] w-full shrink-0 relative aspect-[4/3] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 bg-[#111]">
-              <Image src="/launchpad.jpg" alt="Launchpad Funding" fill className="object-cover" />
-            </div>
-            <div className="flex-1">
-              <div className="text-sm font-bold tracking-widest text-accent uppercase mb-2">Launchpad by UIHP@UIU</div>
-              <h3 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Pre-Seed Funding</h3>
-              <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                Received 20,000 BDT in Pre-Seed funding. An initiative of the Digital Entrepreneurship and Innovation Ecosystem Development (DEIED) Project, supported by the ICT Division & The World Bank.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Achievement 3: CSE Project Show */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col lg:flex-row items-center gap-16 border-t border-gray-800 pt-16"
-          >
-            <div className="flex-1">
-              <div className="text-sm font-bold tracking-widest text-accent uppercase mb-2">Project Showcase</div>
-              <h3 className="text-4xl md:text-6xl font-black text-white mb-2 tracking-tighter">CSE Project Shows</h3>
-              <div className="text-accent mb-6 font-medium uppercase tracking-widest text-sm">United International University</div>
-              <ul className="space-y-4 text-gray-400 text-lg">
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">FYDP 1 Fall 2025 Project Show <span className="text-sm text-gray-500 font-normal">(Undergraduate Thesis)</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-white/10 text-white px-3 py-1.5 rounded-lg border border-white/10"><span className="text-lg">🥈</span> 1st Runner-Up</span>
-                </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">Microprocessor Lab Show <span className="text-sm text-gray-500 font-normal">– Summer 2025</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-white/10 text-white px-3 py-1.5 rounded-lg border border-white/10"><span className="text-lg">🥈</span> 1st Runner-Up</span>
-                </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">Electronics Lab Show <span className="text-sm text-gray-500 font-normal">– Spring 2025</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-white/10 text-white px-3 py-1.5 rounded-lg border border-white/10"><span className="text-lg">🥈</span> 1st Runner-Up</span>
-                </li>
-                <li className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="font-medium text-white">SAD Lab Show <span className="text-sm text-gray-500 font-normal">– Spring 2025</span></span>
-                  <span className="shrink-0 inline-flex items-center gap-2 text-sm font-bold bg-[#CD7F32]/10 text-[#CD7F32] px-3 py-1.5 rounded-lg border border-[#CD7F32]/30"><span className="text-lg">🥉</span> 2nd Runner-Up</span>
-                </li>
-              </ul>
-            </div>
-            <div className="lg:w-[500px] w-full shrink-0 relative aspect-[4/3] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 bg-[#111]">
-              <Image src="/CSE Project Show Awards.jpg" alt="CSE Project Show Awards" fill className="object-cover" />
-            </div>
-          </motion.div>
-
-          {/* Other Text Achievements */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-16 border-t border-gray-800 pt-16"
-          >
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-6">Competitions</h3>
-              <ul className="space-y-6 text-gray-400 text-lg">
-                <li className="flex flex-col gap-2">
-                  <span className="font-semibold text-white">National Blockchain Olympiad (BCOL) 2025</span>
-                  <span className="text-accent uppercase tracking-widest text-sm">Finalist</span>
-                </li>
-                <li className="flex flex-col gap-2">
-                  <span className="font-semibold text-white">The Queen's Commonwealth Essay Competition</span>
-                  <span className="text-orange-500 uppercase tracking-widest text-sm flex items-center gap-2"><span className="text-base">🥉</span> Bronze Medal</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-6">Scholarships</h3>
-              <ul className="space-y-6 text-gray-400 text-lg">
-                <li className="flex flex-col gap-2">
-                  <span className="font-semibold text-white">50% Waiver (Four Times)</span>
-                  <span>United International University</span>
-                </li>
-                <li className="flex flex-col gap-2">
-                  <span className="font-semibold text-white">25% Waiver (Two Times)</span>
-                  <span>United International University</span>
-                </li>
-              </ul>
-            </div>
-          </motion.div>
-
+          ))}
         </div>
+
+        <div className="relative grid grid-cols-2 lg:grid-cols-1 items-start gap-8 lg:gap-0 px-2">
+          <Polaroid src="/R&Iweek.jpg" alt="Poster presentation at UIU R&I Week 2025" caption="R&I Week 2025" rotate={-3} aspect="aspect-video" className="lg:w-[86%]" />
+          <Polaroid
+            src="/CSE Project Show Awards.jpg"
+            alt="UIU CSE project show awards"
+            caption="project show haul"
+            rotate={2.5}
+            className="lg:w-[80%] lg:ml-auto lg:-mt-6"
+          />
+          <Polaroid
+            src="/launchpad.jpg"
+            alt="Launchpad pre-seed funding event"
+            caption="Launchpad day"
+            rotate={-1.5}
+            className="col-span-2 sm:col-span-1 lg:w-[84%] lg:-mt-4 lg:ml-4"
+          />
+        </div>
+      </div>
+
+      <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {notes.map((n, i) => (
+          <StickyNote key={n.title} color={n.color} rotate={[-2, 1.5, -1, 2][i]}>
+            <p className="font-mono text-[11px] uppercase tracking-widest text-ink-soft">{n.kicker}</p>
+            <p className="font-hand text-4xl font-bold text-ink leading-none mt-2 mb-2">{n.title}</p>
+            <p className="text-base leading-snug text-ink-soft">{n.body}</p>
+          </StickyNote>
+        ))}
       </div>
     </section>
   );
