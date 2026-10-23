@@ -8,7 +8,13 @@ import ReactMarkdown from "react-markdown";
 type Message = {
   role: "user" | "bot";
   content: string;
+  // Error replies are shown but never sent back as history
+  failed?: boolean;
 };
+
+// Turns of earlier conversation sent with each question, so follow-ups
+// like "tell me more about that" can be answered. The API accepts up to 20.
+const MAX_HISTORY = 12;
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +22,7 @@ export default function ChatWidget() {
     {
       role: "bot",
       content:
-        "Hi! I'm an AI assistant trained on Namare's resume and portfolio. Ask me anything about his skills, projects, or experience!",
+        "Hi! I'm an AI assistant that answers from Namare's résumé and portfolio. Ask me anything about his skills, projects, or experience!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -35,30 +41,39 @@ export default function ChatWidget() {
     if (!input.trim() || isLoading) return;
 
     const userMsg = input.trim();
+    // Skip the canned greeting (index 0) and failed replies
+    const history = messages
+      .slice(1)
+      .filter((m) => !m.failed)
+      .slice(-MAX_HISTORY)
+      .map((m) => ({ role: m.role === "bot" ? "assistant" : "user", content: m.content }));
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "https://resume-rag-chatbot-zaeu.onrender.com/api/chat";
+      // Served by this app's own route (src/app/api/chat/route.ts)
+      const apiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "/api/chat";
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: userMsg }),
+        body: JSON.stringify({ question: userMsg, history }),
       });
 
-      if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      if (!data?.answer) {
         throw new Error("Failed to fetch response");
       }
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "bot", content: data.answer }]);
+      // Rate-limit and model-outage replies still carry a message worth showing
+      setMessages((prev) => [...prev, { role: "bot", content: data.answer, failed: !res.ok }]);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
         {
           role: "bot",
           content: "Sorry, I am having trouble connecting right now. Please try again later.",
+          failed: true,
         },
       ]);
     } finally {
