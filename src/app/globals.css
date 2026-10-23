@@ -112,6 +112,46 @@
   background-repeat: no-repeat, repeat;
 }
 
+/* Chat panel: ruled paper without the margin line */
+.chat-paper {
+  background-color: var(--color-paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(207, 224, 240, 0.7) 27px 28px);
+}
+
+/* Markdown inside chatbot answers */
+.chat-md > * + * {
+  margin-top: 0.6em;
+}
+.chat-md ul,
+.chat-md ol {
+  padding-left: 1.25em;
+}
+.chat-md ul {
+  list-style: disc;
+}
+.chat-md ol {
+  list-style: decimal;
+}
+.chat-md li + li {
+  margin-top: 0.25em;
+}
+.chat-md li::marker {
+  color: var(--color-red-pen);
+}
+.chat-md strong {
+  font-weight: 600;
+}
+.chat-md a {
+  color: var(--color-red-pen);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.chat-md h1,
+.chat-md h2,
+.chat-md h3 {
+  font-weight: 600;
+}
+
 /* Highlighter sweep: grows left-to-right when .is-on is added */
 .hl {
   background-repeat: no-repeat;

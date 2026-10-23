@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, Loader2 } from "lucide-react";
+import { X, ArrowUp } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { Tape } from "@/components/Notebook/Paper";
 
 type Message = {
   role: "user" | "bot";
@@ -16,6 +17,9 @@ type Message = {
 // like "tell me more about that" can be answered. The API accepts up to 20.
 const MAX_HISTORY = 12;
 
+// Shown until the visitor asks their first question
+const SUGGESTIONS = ["What is ARGUS?", "What are his skills?", "How can I contact him?"];
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -27,20 +31,19 @@ export default function ChatWidget() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom of chat
+  // Keep the newest message in view. Scroll the panel itself: scrollIntoView
+  // would also scroll the page behind it.
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages, isOpen]);
+    const body = bodyRef.current;
+    if (body) body.scrollTo({ top: body.scrollHeight, behavior: "smooth" });
+  }, [messages, isLoading, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const send = async (text: string) => {
+    const userMsg = text.trim();
+    if (!userMsg || isLoading) return;
 
-    const userMsg = input.trim();
     // Skip the canned greeting (index 0) and failed replies
     const history = messages
       .slice(1)
@@ -81,104 +84,123 @@ export default function ChatWidget() {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    send(input);
+  };
+
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-background border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: 24, rotate: 2 }}
+            animate={{ opacity: 1, y: 0, rotate: -0.6 }}
+            exit={{ opacity: 0, y: 24, rotate: 2 }}
+            transition={{ type: "spring", stiffness: 260, damping: 24 }}
+            className="relative mb-5 w-[calc(100vw-2rem)] max-w-[400px] h-[min(540px,calc(100dvh-8rem))] chat-paper text-ink flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.06),0_24px_48px_-16px_rgba(29,43,79,0.45)]"
+            role="dialog"
+            aria-label="Chat with Namare's AI assistant"
           >
+            <Tape className="-top-3 left-1/2 -translate-x-1/2" rotate={-2} />
+
             {/* Header */}
-            <div className="bg-primary text-primary-foreground p-4 flex justify-between items-center shadow-sm">
-              <div className="flex items-center space-x-2">
-                <Bot size={20} />
-                <h3 className="font-semibold text-sm">Namare's AI Assistant</h3>
+            <div className="flex justify-between items-start px-5 pt-6 pb-3 border-b-2 border-dashed border-rule">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-pencil">Résumé chatbot</p>
+                <h3 className="font-hand text-3xl font-bold leading-none mt-1">Ask about Namare</h3>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="hover:bg-primary-foreground/20 p-1 rounded-md transition-colors"
+                className="p-1 -mr-1 text-ink-soft hover:text-red-pen transition-colors"
+                aria-label="Close chat"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Chat Body */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted/20">
-              {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                >
+            <div ref={bodyRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+              {messages.map((msg, idx) =>
+                msg.role === "user" ? (
+                  <div key={idx} className="flex justify-end">
+                    <p
+                      className={`max-w-[85%] bg-sticky px-3 py-1.5 font-hand text-xl leading-snug shadow-[0_1px_1px_rgba(0,0,0,0.08),0_6px_10px_-6px_rgba(0,0,0,0.3)] ${
+                        idx % 2 ? "rotate-1" : "-rotate-1"
+                      }`}
+                    >
+                      {msg.content}
+                    </p>
+                  </div>
+                ) : (
                   <div
-                    className={`max-w-[85%] rounded-2xl p-3 px-4 text-sm shadow-sm ${
-                      msg.role === "user"
-                        ? "bg-primary text-primary-foreground rounded-tr-sm"
-                        : "bg-card border border-border text-card-foreground rounded-tl-sm"
+                    key={idx}
+                    className={`chat-md max-w-[92%] font-serif text-[15px] leading-relaxed ${
+                      msg.failed ? "text-red-pen" : "text-ink"
                     }`}
                   >
-                    {msg.role === "bot" ? (
-                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-snug prose-ul:my-1 prose-li:my-0 prose-h1:text-base prose-h2:text-sm prose-h3:text-sm">
-                        <ReactMarkdown>
-                          {msg.content}
-                        </ReactMarkdown>
-                      </div>
-                    ) : (
-                      msg.content
-                    )}
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
 
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-card border border-border rounded-2xl rounded-tl-sm p-4 text-sm shadow-sm flex items-center space-x-2">
-                    <Loader2 size={16} className="animate-spin text-muted-foreground" />
-                    <span className="text-muted-foreground">Thinking...</span>
-                  </div>
+              {messages.length === 1 && !isLoading && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => send(s)}
+                      className="font-hand text-lg leading-none px-2.5 py-1.5 border-[1.5px] border-ink/40 rounded-[3px] text-ink-soft hover:bg-hl-yellow hover:border-ink hover:text-ink transition-colors"
+                    >
+                      {s}
+                    </button>
+                  ))}
                 </div>
               )}
-              <div ref={messagesEndRef} />
+
+              {isLoading && (
+                <p className="font-hand text-xl text-pencil" aria-live="polite">
+                  thinking
+                  <span className="inline-block animate-pulse">…</span>
+                </p>
+              )}
             </div>
 
             {/* Input Area */}
-            <div className="p-3 bg-background border-t border-border">
-              <form
-                onSubmit={handleSubmit}
-                className="flex items-center bg-muted/50 border border-border rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-primary/50 transition-all shadow-sm"
+            <form onSubmit={handleSubmit} className="flex items-end gap-3 px-5 pb-5 pt-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="write a question…"
+                aria-label="Your question"
+                className="flex-1 min-w-0 bg-transparent border-b-2 border-ink/60 focus:border-red-pen outline-none font-hand text-2xl leading-tight pb-0.5 placeholder:text-pencil/70 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                className="shrink-0 w-10 h-10 flex items-center justify-center bg-ink text-paper rounded-[3px] shadow-[2px_2px_0_var(--color-red-pen)] hover:shadow-[1px_1px_0_var(--color-red-pen)] hover:translate-x-[1px] hover:translate-y-[1px] disabled:opacity-40 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0 transition-all"
+                aria-label="Send"
               >
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask a question..."
-                  className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground"
-                />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isLoading}
-                  className="ml-2 text-primary disabled:text-muted-foreground transition-colors hover:text-primary/80"
-                >
-                  <Send size={18} />
-                </button>
-              </form>
-            </div>
+                <ArrowUp size={18} />
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Toggle Button */}
+      {/* Toggle Button: a sticky note */}
       <motion.button
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ rotate: 0, scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        initial={false}
+        animate={{ rotate: isOpen ? 0 : -6 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-xl hover:shadow-2xl transition-all"
+        className="w-16 h-16 bg-sticky text-ink flex items-center justify-center shadow-[0_1px_1px_rgba(0,0,0,0.08),0_10px_18px_-8px_rgba(0,0,0,0.4)]"
         aria-label="Toggle chat"
+        aria-expanded={isOpen}
       >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+        {isOpen ? <X size={24} /> : <span className="font-hand text-2xl font-bold leading-[0.9]">ask<br />me?</span>}
       </motion.button>
     </div>
   );
