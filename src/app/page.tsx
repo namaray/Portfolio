@@ -1,3 +1,4 @@
+import NotebookShell from '@/components/Notebook/NotebookShell';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import ExperienceSection from '@/components/ExperienceSection';
@@ -8,7 +9,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main className="bg-background min-h-screen relative overflow-hidden">
+    <NotebookShell>
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
@@ -16,6 +17,6 @@ export default function Home() {
       <ExperienceSection />
       <AchievementsSection />
       <Footer />
-    </main>
+    </NotebookShell>
   );
 }
