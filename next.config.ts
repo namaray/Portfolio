@@ -3,6 +3,11 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
+  // The chat route reads its knowledge base from disk at runtime
+  outputFileTracingIncludes: {
+    '/api/chat': ['./content/chatbot/**'],
+  },
+
   images: {
     remotePatterns: [
       {
