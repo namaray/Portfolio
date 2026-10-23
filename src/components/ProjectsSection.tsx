@@ -1,148 +1,318 @@
 'use client';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
+import { Highlight, type HighlightColor } from '@/components/Notebook/Doodles';
+import { PageHeading, Polaroid } from '@/components/Notebook/Paper';
 
-const projects = [
+type Project = {
+  title: string;
+  subtitle: string;
+  stamp: string;
+  did: string[];
+  tech: string[];
+  githubLink?: string;
+  videoLink?: string;
+  bgImage?: string;
+  caption: string;
+  imageClassName?: string;
+  bgColor?: string;
+};
+
+const projects: Project[] = [
   {
     title: 'ARGUS',
-    subtitle: 'AI-Powered Smart Glasses for the Visually Impaired',
-    description: 'An on-device AI navigation system integrating real-time object detection, depth estimation, and voice-command NLU on a Jetson Orin Nano.',
-    tech: ['Python', 'YOLOv8', 'TensorRT', 'Whisper'],
-    githubLink: '',
-    bgImage: '/argus-v2.png'
+    subtitle: 'AI-powered smart glasses for the visually impaired',
+    stamp: 'Ongoing thesis',
+    did: [
+      'Scoped the problem, requirements and hardware for on-device navigation glasses with a custom 3D-printed frame.',
+      'Planned and moderated a focus group with visually impaired participants to gather their needs.',
+      'Built the real-time perception pipeline on a Jetson Orin Nano: stereo depth, object detection & tracking, segmentation.',
+      'Wired up the voice interface: Whisper speech recognition, a quantized on-device LLM for commands, and TTS.',
+    ],
+    tech: ['Jetson Orin Nano', 'Stereo depth', 'YOLO', 'Whisper', 'Quantized LLMs', '3D printing'],
+    bgImage: '/argus-v2.png',
+    caption: 'ARGUS v2',
   },
-
   {
-    title: 'Portable Braille',
-    subtitle: 'Making Print Accessible',
-    description: 'Engineered a low-cost, portable Braille printer that embosses digital text onto A4 paper using stepper motors, solenoid actuators, and IR sensors.',
-    tech: ['Raspberry Pi', 'Python', 'OCR', '3D Printing'],
+    title: 'Portable Braille Printer',
+    subtitle: 'Making print accessible, on demand',
+    stamp: 'User-tested',
+    did: [
+      'Engineered a low-cost, battery-powered printer that scans text and embosses it as Braille onto A4 paper.',
+      'Built the electromechanics: NEMA 17 steppers on DRV8825 drivers, solenoid embossing, IR paper sensing.',
+      'Ran a focus group and a usability study, then a thematic analysis in Taguette to derive design requirements.',
+    ],
+    tech: ['Raspberry Pi', 'Python', 'OCR', 'Stepper motors', 'MOSFETs', '3D printing'],
     githubLink: 'https://github.com/namaray/Portable-Braille-Printer',
     videoLink: 'https://www.youtube.com/embed/iy1dZGjbnOs',
-    bgImage: 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?q=80&w=2000&auto=format&fit=crop'
+    caption: 'press play ▶',
   },
   {
     title: 'ShareStrength',
-    subtitle: 'Empowering Individuals with Disabilities',
-    description: 'Built a web platform connecting people with disabilities to trusted helpers using AI-based recommendations and accessibility tools.',
-    tech: ['PHP', 'MySQL', 'JavaScript', 'Tailwind'],
-    githubLink: 'https://github.com/namaray/ShareStrength',
-    bgImage: '/Sharestrength.png'
+    subtitle: 'Community support for people with disabilities',
+    stamp: 'Funded · ৳20,000',
+    did: [
+      'Wrote the requirements (SRS) and built the full-stack platform: helper matching, task tracking, messaging, donations and a marketplace.',
+      'Added accessible voice and eye-tracking controls.',
+      'Won BDT 20,000 pre-seed funding through the DEIED project (ICT Division & World Bank).',
+    ],
+    tech: ['React', 'Vite', 'Laravel', 'MySQL', 'Tailwind', 'REST APIs'],
+    githubLink: 'https://github.com/meteorboyF/ShareStrength-SL',
+    bgImage: '/Sharestrength.png',
+    caption: 'helpers, matched',
   },
   {
     title: 'Maternify',
-    subtitle: 'Prenatal & Postnatal Health Tracker',
-    description: 'A prenatal/postnatal symptom tracking platform with intelligent risk-flag generation to help expecting and new mothers monitor their health. Role: Main front end designer.',
-    tech: ['Python', 'AI APIs', 'React'],
-    githubLink: '',
+    subtitle: 'Prenatal & postnatal health tracker',
+    stamp: 'Team project',
+    did: [
+      'Symptom tracking for expecting and new mothers, with intelligent risk flags to help them monitor their health.',
+      'My role: main front-end designer.',
+    ],
+    tech: ['React', 'Python', 'AI APIs'],
     bgImage: '/maternify.png',
-    imageClassName: 'object-contain p-4 lg:p-8',
-    bgColor: '#0f6e56'
+    caption: 'for new mums',
+    imageClassName: 'object-contain p-6',
+    bgColor: '#0f6e56',
   },
 ];
 
-const ProjectCard = ({ project, index }: { project: any, index: number }) => {
-  const isEven = index % 2 === 0;
+type Card = {
+  kind: string;
+  title: string;
+  body: string;
+  tags: string;
+  href?: string;
+  linkLabel?: string;
+  pin: string;
+};
+
+const moreWork: Card[] = [
+  {
+    kind: 'Android game',
+    title: 'Last Light',
+    body: 'A one-thumb neon arcade game: turn a shield around a glowing core to block incoming shapes, and let the healing light through. 8 levels, 4 difficulties.',
+    tags: 'TypeScript · Canvas · Capacitor',
+    pin: 'bg-red-pen',
+  },
+  {
+    kind: 'Hackathon · team of 4',
+    title: 'Oushudh Bondhu',
+    body: 'Photograph a handwritten prescription; Gemma explains each medicine in plain Bangla and builds a dose timetable. I wrote the submission and drew the architecture and user flows.',
+    tags: 'Gemma · OCR · Python',
+    href: '/product',
+    linkLabel: 'case study',
+    pin: 'bg-[#3b82c4]',
+  },
+  {
+    kind: 'EdTech · team of 2',
+    title: 'ReplayCS',
+    body: 'Students predict what a program does next before the answer is revealed. I led the UX redesign and front-end: a 4-step onboarding, a calmer landing page and a light theme.',
+    tags: 'SvelteKit · Playwright',
+    href: 'https://replaycs.vercel.app',
+    linkLabel: 'live site',
+    pin: 'bg-[#2f9e6a]',
+  },
+  {
+    kind: 'Tool',
+    title: 'Messages Archive Viewer',
+    body: 'An offline viewer for Android SMS / MMS / RCS backups that looks like Google Messages. Nothing is uploaded, and the Android version asks for zero permissions.',
+    tags: 'JavaScript · IndexedDB · Android',
+    pin: 'bg-[#e0a526]',
+  },
+  {
+    kind: 'Research',
+    title: 'BanglaSlumNet',
+    body: 'Finding informal settlements in Dhaka from Sentinel-2 imagery, where optical-only models confuse dense formal areas with slums. Fuses a vision-language backbone with night lights, population and road data.',
+    tags: 'PyTorch · Earth Engine · VLMs',
+    href: 'https://github.com/namaray/BanglaSlumNet',
+    linkLabel: 'GitHub',
+    pin: 'bg-red-pen',
+  },
+  {
+    kind: 'Research · team',
+    title: 'Does structure matter?',
+    body: 'An empirical study of whether data-flow graphs help code transformers (CodeBERT, GraphCodeBERT, UniXcoder) find vulnerabilities in decompiled Android apps.',
+    tags: 'Transformers · Android security',
+    pin: 'bg-[#3b82c4]',
+  },
+  {
+    kind: 'Research',
+    title: 'Anomaly detection, in bad light',
+    body: 'A benchmark of test-time "rescue" preprocessing versus training-time augmentation for PatchCore and PaDiM under adverse imaging, on MVTec-AD and VisA, with proper significance tests.',
+    tags: 'PatchCore · PaDiM · stats',
+    pin: 'bg-[#2f9e6a]',
+  },
+  {
+    kind: 'Study platform',
+    title: 'Linguistic uncanny valley',
+    body: 'A web app for a writing study: participants write, an LLM edits their text within seconds, and they review the AI versions. Runs entirely on free tiers.',
+    tags: 'Node · Turso · Groq · Vercel',
+    pin: 'bg-[#e0a526]',
+  },
+  {
+    kind: 'On this site',
+    title: 'Résumé chatbot',
+    body: 'Retrieval-augmented chatbot grounded in my real documents, so it won’t make up skills I don’t have. It’s the bubble in the bottom-right corner.',
+    tags: 'FastAPI · RAG · Render',
+    pin: 'bg-red-pen',
+  },
+];
+
+const TAG_COLORS: HighlightColor[] = ['yellow', 'pink', 'blue', 'green'];
+
+function Stamp({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 1.6, rotate: -14 }}
+      whileInView={{ opacity: 0.85, scale: 1, rotate: -6 }}
+      viewport={{ once: true }}
+      transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.3 }}
+      className="inline-block border-[2.5px] border-red-pen text-red-pen font-mono text-xs md:text-sm font-semibold uppercase tracking-[0.18em] px-3 py-1 rounded-[3px] mix-blend-multiply"
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+function ProjectEntry({ project, index }: { project: Project; index: number }) {
+  const flip = index % 2 === 1;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 50 }}
+    <motion.article
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-      className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-24 items-center mb-32 last:mb-0`}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7 }}
+      className={`flex flex-col ${flip ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-start py-14 md:py-16 border-b border-dashed border-pencil/30 last:border-b-0`}
     >
-      {/* Image / Video Container */}
-      <div 
-        className="w-full lg:w-[55%] relative group rounded-3xl overflow-hidden border border-white/5 aspect-[4/3] lg:aspect-[16/10] shrink-0 grayscale hover:grayscale-0 transition-all duration-700"
-        style={{ backgroundColor: project.bgColor || '#111111' }}
-      >
-        {project.videoLink ? (
-          <iframe 
-            src={project.videoLink}
-            title={`${project.title} Video`}
-            className="absolute inset-0 w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        ) : (
-          <Image 
-            src={project.bgImage} 
-            alt={project.title} 
-            fill 
-            className={`transition-transform duration-700 scale-100 group-hover:scale-105 ${project.imageClassName || 'object-cover'}`}
-          />
-        )}
+      <div className="w-full lg:w-[48%] shrink-0 px-2 lg:pt-4">
+        <Polaroid
+          src={project.bgImage}
+          alt={project.title}
+          caption={project.caption}
+          rotate={flip ? 2 : -2}
+          imageClassName={project.imageClassName}
+          bg={project.bgColor}
+          aspect="aspect-[16/10]"
+        >
+          {project.videoLink ? (
+            <iframe
+              src={project.videoLink}
+              title={`${project.title} video`}
+              className="absolute inset-0 w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : undefined}
+        </Polaroid>
       </div>
 
-      {/* Content Container */}
-      <div className="w-full lg:w-[45%] flex flex-col justify-center">
-        <div className="flex items-center gap-4 mb-6">
-          <span className="text-accent font-bold tracking-widest uppercase text-sm">0{index + 1}</span>
-          <span className="w-12 h-px bg-white/20"></span>
-          <span className="text-gray-400 text-sm font-medium tracking-widest uppercase">{project.subtitle}</span>
+      <div className="w-full lg:w-[52%]">
+        <div className="flex flex-wrap items-center gap-4 mb-4">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-pencil">Entry 0{index + 1}</span>
+          <Stamp>{project.stamp}</Stamp>
         </div>
-        
-        <h3 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-8 text-white leading-[0.9]">
+        <h3 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-ink leading-[1.02]">
           {project.title}
         </h3>
-        
-        <p className="text-xl text-gray-400 mb-10 leading-relaxed">
-          {project.description}
-        </p>
-        
-        <div className="flex flex-wrap gap-3 mb-10">
-          {project.tech.map((t: string, i: number) => (
-            <span key={i} className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs font-bold tracking-widest uppercase text-gray-300">
-              {t}
-            </span>
+        <p className="font-hand text-2xl md:text-3xl text-red-pen mt-2 mb-6">{project.subtitle}</p>
+
+        <ul className="space-y-3 mb-7">
+          {project.did.map((d) => (
+            <li key={d} className="flex gap-3 text-lg leading-relaxed text-ink-soft">
+              <span aria-hidden className="font-hand text-2xl leading-[1.1] text-red-pen shrink-0">✓</span>
+              <span>{d}</span>
+            </li>
           ))}
-        </div>
+        </ul>
+
+        <p className="flex flex-wrap gap-x-3 gap-y-2 font-hand text-2xl text-ink">
+          {project.tech.map((t, i) => (
+            <Highlight key={t} color={TAG_COLORS[(i + index) % TAG_COLORS.length]}>
+              {t}
+            </Highlight>
+          ))}
+        </p>
 
         {project.githubLink && (
-          <a 
+          <a
             href={project.githubLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-white hover:text-accent transition-colors"
+            className="inline-block mt-7 font-mono text-sm uppercase tracking-widest text-ink border-b-2 border-ink hover:text-red-pen hover:border-red-pen transition-colors"
           >
-            View Project
-            <span className="w-8 h-[2px] bg-white group-hover:bg-accent group-hover:w-12 transition-all duration-300"></span>
+            Source on GitHub ↗
           </a>
         )}
       </div>
-    </motion.div>
+    </motion.article>
   );
-};
+}
+
+function IndexCard({ card, index }: { card: Card; index: number }) {
+  const rotate = [-1.5, 1, -0.5, 1.5, -1, 0.5][index % 6];
+  const external = card.href?.startsWith('http');
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24, rotate: 0 }}
+      whileInView={{ opacity: 1, y: 0, rotate }}
+      whileHover={{ rotate: 0, y: -6 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ type: 'spring', stiffness: 130, damping: 16, delay: (index % 3) * 0.08 }}
+      className="relative index-card px-5 pt-3 pb-5 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_10px_24px_-12px_rgba(29,43,79,0.35)]"
+    >
+      <span aria-hidden className={`absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ${card.pin} shadow-[inset_-2px_-2px_3px_rgba(0,0,0,0.25),0_2px_3px_rgba(0,0,0,0.25)]`} />
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-pencil h-[18px]">{card.kind}</p>
+      <h4 className="font-serif text-2xl font-semibold text-ink leading-[26px] h-[26px] mb-[12px] truncate">{card.title}</h4>
+      <p className="font-hand text-[22px] leading-[26px] text-ink-soft">{card.body}</p>
+      <div className="mt-[26px] flex items-end justify-between gap-3 font-mono text-[11px] text-pencil leading-[26px]">
+        <span>{card.tags}</span>
+        {card.href &&
+          (external ? (
+            <a href={card.href} target="_blank" rel="noopener noreferrer" className="shrink-0 text-red-pen underline underline-offset-4 hover:no-underline">
+              {card.linkLabel} ↗
+            </a>
+          ) : (
+            <Link href={card.href} className="shrink-0 text-red-pen underline underline-offset-4 hover:no-underline">
+              {card.linkLabel} →
+            </Link>
+          ))}
+      </div>
+    </motion.article>
+  );
+}
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-32 px-8 md:px-16 lg:px-24 relative bg-background border-t border-white/5">
-      <div className="max-w-[1400px] mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-32"
-        >
-          Selected Works
-        </motion.h2>
+    <section id="projects" className="relative pl-10 pr-5 md:pl-28 md:pr-14 py-20 md:py-28 border-t-2 border-dashed border-rule scroll-mt-14">
+      <PageHeading page="02" kicker="Experiments log" title="Selected work" note="the ones I’m proudest of" />
 
-        <div className="flex flex-col">
-          {projects.map((project, idx) => (
-            <ProjectCard key={idx} project={project} index={idx} />
-          ))}
+      <div>
+        {projects.map((project, idx) => (
+          <ProjectEntry key={project.title} project={project} index={idx} />
+        ))}
+      </div>
+
+      <div className="mt-20 md:mt-28">
+        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-12">
+          <h3 className="font-serif text-3xl md:text-4xl font-semibold text-ink">
+            Also pinned to the corkboard
+          </h3>
+          <Link
+            href="/product"
+            className="font-hand text-2xl md:text-3xl text-red-pen hover:underline underline-offset-4"
+          >
+            read the product & web case studies →
+          </Link>
         </div>
 
-        <Link
-          href="/product"
-          className="group mt-32 inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-white hover:text-accent transition-colors"
-        >
-          Product & web case studies
-          <span className="w-8 h-[2px] bg-white group-hover:bg-accent group-hover:w-12 transition-all duration-300"></span>
-        </Link>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-10">
+          {moreWork.map((card, i) => (
+            <IndexCard key={card.title} card={card} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   );
