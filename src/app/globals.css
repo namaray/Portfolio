@@ -32,6 +32,99 @@
   }
 }
 
+/* Notebook theme (home page). Fonts come from next/font variables set in layout.tsx */
+@theme inline {
+  --color-desk: #ece6d8;
+  --color-paper: #fdfaf1;
+  --color-paper-deep: #f6f0de;
+  --color-rule: #cfe0f0;
+  --color-margin: #eaa3a0;
+  --color-ink: #1d2b4f;
+  --color-ink-soft: #4b5878;
+  --color-pencil: #77736a;
+  --color-red-pen: #c8372d;
+  --color-hl-yellow: #fff07a;
+  --color-hl-pink: #ffc7da;
+  --color-hl-green: #c6f0bd;
+  --color-hl-blue: #c5e3ff;
+  --color-sticky: #fff4a3;
+  --color-sticky-pink: #ffd6e3;
+  --color-sticky-blue: #d4ecff;
+  --color-sticky-green: #d9f5cf;
+
+  --font-hand: var(--font-caveat), 'Caveat', cursive;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* Ruled notebook paper with a red margin line */
+.paper-ruled {
+  --margin-x: 20px;
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(90deg, transparent calc(var(--margin-x) - 1px), var(--color-margin) calc(var(--margin-x) - 1px), var(--color-margin) calc(var(--margin-x) + 1px), transparent calc(var(--margin-x) + 1px)),
+    repeating-linear-gradient(to bottom, transparent 0 31px, var(--color-rule) 31px 32px);
+}
+@media (min-width: 768px) {
+  .paper-ruled {
+    --margin-x: 72px;
+  }
+}
+
+/* Graph paper */
+.paper-grid {
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(var(--color-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Dotted desk underneath the notebook */
+.desk {
+  background-color: var(--color-desk);
+  background-image: radial-gradient(rgba(29, 43, 79, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Spiral binding down the left edge of the notebook */
+.spiral {
+  background-image: radial-gradient(circle at 50% 50%, var(--color-desk) 0 6px, #b9b2a3 6px 7.5px, transparent 8px);
+  background-size: 28px 36px;
+  background-repeat: repeat-y;
+}
+
+/* Index card: red header rule, blue lines */
+.index-card {
+  background-color: #fffefa;
+  background-image:
+    linear-gradient(to bottom, transparent 47px, #e9a3a0 47px, #e9a3a0 49px, transparent 49px),
+    repeating-linear-gradient(to bottom, transparent 0 25px, #dbe8f4 25px 26px);
+  background-position: 0 0, 0 49px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Highlighter sweep: grows left-to-right when .is-on is added */
+.hl {
+  background-repeat: no-repeat;
+  background-size: 0% 72%;
+  background-position: 0 75%;
+  transition: background-size 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.15em;
+  margin: 0 -0.15em;
+}
+.hl.is-on {
+  background-size: 100% 72%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl {
+    transition: none;
+  }
+}
+
 @layer base {
   *,
   ::after,
