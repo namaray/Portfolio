@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -25,6 +26,10 @@ const Navbar = () => {
       document.body.style.overflow = 'unset'
     }
   }, [isOpen])
+
+  // The notebook home page has its own index tabs
+  const pathname = usePathname()
+  if (pathname === '/') return null
 
   return (
     <>
