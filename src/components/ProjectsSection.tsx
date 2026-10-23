@@ -100,8 +100,6 @@ const moreWork: Card[] = [
     title: 'Oushudh Bondhu',
     body: 'Photograph a handwritten prescription; Gemma explains each medicine in plain Bangla and builds a dose timetable. I wrote the submission and drew the architecture and user flows.',
     tags: 'Gemma · OCR · Python',
-    href: '/product',
-    linkLabel: 'case study',
     pin: 'bg-[#3b82c4]',
   },
   {
@@ -296,17 +294,9 @@ export default function ProjectsSection() {
       </div>
 
       <div className="mt-20 md:mt-28">
-        <div className="flex flex-wrap items-baseline justify-between gap-4 mb-12">
-          <h3 className="font-serif text-3xl md:text-4xl font-semibold text-ink">
-            Also pinned to the corkboard
-          </h3>
-          <Link
-            href="/product"
-            className="font-hand text-2xl md:text-3xl text-red-pen hover:underline underline-offset-4"
-          >
-            read the product & web case studies →
-          </Link>
-        </div>
+        <h3 className="font-serif text-3xl md:text-4xl font-semibold text-ink mb-12">
+          Also pinned to the corkboard
+        </h3>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-10">
           {moreWork.map((card, i) => (

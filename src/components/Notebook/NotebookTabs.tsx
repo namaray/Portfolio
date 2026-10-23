@@ -61,11 +61,6 @@ export default function NotebookTabs() {
                 </a>
               </li>
             ))}
-            <li>
-              <Link href="/product" className="block px-2.5 py-1 whitespace-nowrap text-red-pen hover:underline">
-                Case studies ↗
-              </Link>
-            </li>
           </ul>
         </div>
       </nav>
@@ -87,16 +82,6 @@ export default function NotebookTabs() {
               </a>
             </li>
           ))}
-          <li className="mt-4">
-            <Link
-              href="/product"
-              className="block pl-4 pr-3 py-2 font-mono text-xs uppercase tracking-widest text-red-pen hover:translate-x-1 transition-transform"
-            >
-              Case
-              <br />
-              studies ↗
-            </Link>
-          </li>
         </ul>
       </nav>
     </>
