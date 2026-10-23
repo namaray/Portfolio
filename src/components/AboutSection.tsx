@@ -25,8 +25,9 @@ export default function AboutSection() {
         >
           <p>
             I&apos;m a final-year Computer Science &amp; Engineering student at{' '}
-            <span className="text-ink font-medium">United International University</span>, working where{' '}
-            <Highlight color="blue">human-computer interaction</Highlight> meets hardware and AI.
+            <span className="text-ink font-medium">United International University</span>. I work in{' '}
+            <Highlight color="blue">HCI</Highlight>, building accessible technology, from AI-powered embedded
+            hardware to web apps, and testing it with the people who&apos;ll use it.
           </p>
           <p>
             Most of my projects start with a <Underline>conversation, not code</Underline>. For ARGUS and the

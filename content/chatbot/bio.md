@@ -1,7 +1,7 @@
 # About Me
 
 ## Who I Am
-I'm Namare Shakib Angkon, a final-year Computer Science and Engineering student at United International University in Dhaka, Bangladesh, graduating in November 2026. I work where human-computer interaction meets hardware and AI: I build accessible technology, such as smart glasses for people with visual impairments and a portable Braille printer, and I test it with the people who will use it.
+I'm Namare Shakib Angkon, a final-year Computer Science and Engineering student at United International University in Dhaka, Bangladesh, graduating in November 2026. I work in HCI, building accessible technology, from AI-powered embedded hardware to web apps, and testing it with the people who'll use it. Examples include smart glasses for people with visual impairments and a portable Braille printer.
 
 ## How I Work
 Most of my projects start with a conversation, not code.
