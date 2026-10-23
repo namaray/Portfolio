@@ -52,19 +52,21 @@ export default function ChatWidget() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "https://resume-rag-chatbot-zaeu.onrender.com/api/chat";
+      // Served by this app's own route (src/app/api/chat/route.ts)
+      const apiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || "/api/chat";
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: userMsg, history }),
       });
 
-      if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      if (!data?.answer) {
         throw new Error("Failed to fetch response");
       }
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "bot", content: data.answer }]);
+      // Rate-limit and model-outage replies still carry a message worth showing
+      setMessages((prev) => [...prev, { role: "bot", content: data.answer, failed: !res.ok }]);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
