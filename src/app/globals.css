@@ -5,6 +5,14 @@
   --color-foreground: #ffffff;
   --color-accent: #00d2ff;
   --color-accent-secondary: #5cc0fe;
+
+  /* Tokens the chat widget expects; it renders on both the light and dark pages */
+  --color-primary: #c8372d;
+  --color-primary-foreground: #ffffff;
+  --color-border: #3a3a3a;
+  --color-card: #161616;
+  --color-muted: #2a2a2a;
+  --color-muted-foreground: #9a9a9a;
   
   --font-sans: 'Inter', sans-serif;
   
