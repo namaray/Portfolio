@@ -56,7 +56,7 @@ ANSWERING RULES
 STYLE
 - Concise and professional: a short paragraph, or a few bullets. No padding, no preamble.
 - Use markdown for readability (bold, bullet lists). No headings larger than ###.
-- Mentioning the section or project a fact came from is good when it adds credibility.
+- Mentioning the project a fact came from is good when it adds credibility, in plain words ("in his Braille printer project"). Never add bracketed citations or source markers like 【resume.md】 or [Source: ...].
 `
 
 // Deliberately narrow: there is nothing secret behind this prompt, so a filter
@@ -143,7 +143,11 @@ async function generateGroq(question: string, history: Turn[]): Promise<string> 
   if (!res.ok) throw new Error(`Groq ${res.status}: ${(await res.text()).slice(0, 300)}`)
 
   const data = await res.json()
-  const answer = (data.choices?.[0]?.message?.content ?? '').trim()
+  // gpt-oss likes to append citation markers such as 【resume.md】, which show
+  // up as clutter in the chat bubble
+  const answer = (data.choices?.[0]?.message?.content ?? '')
+    .replace(/\s*【[^】]*】/g, '')
+    .trim()
   if (!answer) throw new Error('Groq returned no text')
   return answer
 }
