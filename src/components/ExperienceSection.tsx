@@ -1,106 +1,101 @@
 'use client';
 import { motion } from 'framer-motion';
+import { Circled } from '@/components/Notebook/Doodles';
+import { PageHeading } from '@/components/Notebook/Paper';
+
+const timeline = [
+  {
+    when: '2022 – 2026',
+    kind: 'School',
+    title: 'B.Sc. Computer Science & Engineering',
+    place: 'United International University',
+    detail: 'Graduating Nov 2026 (expected).',
+    grade: 'CGPA 3.93 / 4.00',
+  },
+  {
+    when: '2021 – 2024',
+    kind: 'Work',
+    title: 'Freelance Annotator',
+    place: 'TransPerfect DataForce · Remote',
+    detail:
+      'Annotated audio and video data and interpreted audio files to support the training of AI and machine learning models.',
+  },
+  {
+    when: '2021',
+    kind: 'School',
+    title: 'International Advanced Level (IAL)',
+    place: 'Singapore International School',
+    grade: '1A 2B',
+  },
+  {
+    when: '2019',
+    kind: 'School',
+    title: 'IGCSE',
+    place: 'Academia',
+    grade: '1A* 1A 3B',
+  },
+];
 
 export default function ExperienceSection() {
   return (
-    <section id="experience" className="py-32 px-8 md:px-16 lg:px-24 bg-background border-t border-white/5">
-      <div className="max-w-[1400px]">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+    <section id="experience" className="relative pl-10 pr-5 md:pl-28 md:pr-14 py-20 md:py-28 border-t-2 border-dashed border-rule scroll-mt-14">
+      <PageHeading page="04" kicker="Experience & education" title="How I got here" note="newest on top" />
+
+      <ol className="relative ml-2 md:ml-4">
+        <motion.svg
+          aria-hidden
+          className="absolute left-0 top-2 bottom-2 w-3 h-[calc(100%-1rem)] overflow-visible"
+          preserveAspectRatio="none"
+          viewBox="0 0 10 100"
+          initial={{ clipPath: 'inset(0 -100% 100% -100%)' }}
+          whileInView={{ clipPath: 'inset(0 -100% 0% -100%)' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-20"
+          transition={{ duration: 1.6, ease: 'easeInOut' }}
         >
-          Experience & Education
-        </motion.h2>
+          <path
+            d="M5 0 C 3 20, 7 40, 5 60 S 4 85, 5 100"
+            fill="none"
+            stroke="var(--color-ink-soft)"
+            strokeWidth="2"
+            vectorEffect="non-scaling-stroke"
+          />
+        </motion.svg>
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
-          
-          {/* Experience Column */}
-          <div className="flex-1">
-            <h3 className="text-3xl font-bold text-white mb-12">Experience</h3>
-            <div className="space-y-16">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <h3 className="text-2xl font-bold text-white mb-2">Freelance Annotator</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-6">
-                  <span className="text-accent font-medium uppercase tracking-widest text-sm">Transperfect DataForce</span>
-                  <span className="hidden sm:block text-gray-700">&bull;</span>
-                  <span className="text-gray-500 font-medium">2021 — 2024</span>
-                </div>
-                <p className="text-xl text-gray-400 leading-relaxed">
-                  Annotated Audio/Video data and interpreted audio files for the development of AI solutions. Ensured high-quality data labeling and contributed to the training of robust machine learning models.
-                </p>
-              </motion.div>
+        {timeline.map((item, i) => (
+          <motion.li
+            key={item.title}
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            className="relative pl-10 md:pl-14 pb-14 last:pb-0"
+          >
+            <span aria-hidden className="absolute left-[-3px] top-3 w-[18px] h-[18px] rounded-full border-2 border-ink bg-paper" />
+            <div className="grid md:grid-cols-[170px_1fr] gap-2 md:gap-8">
+              <div>
+                <p className="font-hand text-3xl text-red-pen leading-none">{item.when}</p>
+                <span
+                  className={`inline-block mt-2 font-mono text-[11px] uppercase tracking-widest px-2 py-0.5 ${
+                    item.kind === 'Work' ? 'bg-sticky-blue' : 'bg-sticky-green'
+                  }`}
+                >
+                  {item.kind}
+                </span>
+              </div>
+              <div>
+                <h3 className="font-serif text-2xl md:text-3xl font-semibold text-ink leading-tight">{item.title}</h3>
+                <p className="font-mono text-sm uppercase tracking-wider text-ink-soft mt-1">{item.place}</p>
+                {item.detail && <p className="text-lg leading-relaxed text-ink-soft mt-3 max-w-[36rem]">{item.detail}</p>}
+                {item.grade && (
+                  <p className="font-hand text-3xl text-ink mt-3">
+                    <Circled delay={0.5}>{item.grade}</Circled>
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-
-          {/* Education Column */}
-          <div className="flex-1 lg:pl-16 lg:border-l lg:border-white/5">
-            <h3 className="text-3xl font-bold text-white mb-12">Education</h3>
-            <div className="space-y-16">
-              
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                <h3 className="text-2xl font-bold text-white mb-2">B.Sc Computer Science</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
-                  <span className="text-accent font-medium uppercase tracking-widest text-sm">United International University</span>
-                  <span className="hidden sm:block text-gray-700">&bull;</span>
-                  <span className="text-gray-500 font-medium">2022 — Current</span>
-                </div>
-                <div className="inline-block px-4 py-2 border border-white/10 rounded-lg text-gray-300 font-medium">
-                  CGPA: 3.78 / 4.00
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <h3 className="text-2xl font-bold text-white mb-2">A-Levels (IAL)</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
-                  <span className="text-accent font-medium uppercase tracking-widest text-sm">Singapore International School</span>
-                  <span className="hidden sm:block text-gray-700">&bull;</span>
-                  <span className="text-gray-500 font-medium">2021</span>
-                </div>
-                <div className="inline-block px-4 py-2 border border-white/10 rounded-lg text-gray-300 font-medium">
-                  Result: 1A 2B
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                <h3 className="text-2xl font-bold text-white mb-2">IGCSE</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-4">
-                  <span className="text-accent font-medium uppercase tracking-widest text-sm">Academia</span>
-                  <span className="hidden sm:block text-gray-700">&bull;</span>
-                  <span className="text-gray-500 font-medium">2019</span>
-                </div>
-                <div className="inline-block px-4 py-2 border border-white/10 rounded-lg text-gray-300 font-medium">
-                  Result: 1A* 1A 3B
-                </div>
-              </motion.div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
+          </motion.li>
+        ))}
+      </ol>
     </section>
   );
 }
