@@ -151,6 +151,14 @@
 .chat-md h3 {
   font-weight: 600;
 }
+/* The route blocks code, but anything monospaced must still never stretch the panel */
+.chat-md pre,
+.chat-md code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 
 /* Highlighter sweep: grows left-to-right when .is-on is added */
 .hl {
