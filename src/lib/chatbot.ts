@@ -60,7 +60,7 @@ kind — exactly one of:
 
 answer — only matters for "about_namare"; for other kinds write an empty string.
 - Answer the question directly in the first sentence, in the third person (he/him), using ONLY what the cited facts say. Don't add details, mechanisms, results or links the facts don't state.
-- At most about 120 words: a short paragraph or a few bullet points. Plain markdown only: bold and bullets. No headings, tables, code or source markers.
+- At most about 120 words: one or two short sentences, or a short lead sentence and bullet points. Use bullets whenever you list three or more things. Bold only a few key words, never whole sentences. No headings, tables, code or source markers.
 
 facts_used — the IDs (like "F12") of every fact the answer relies on. Required for "about_namare"; empty for other kinds.
 
