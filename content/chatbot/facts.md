@@ -1,10 +1,10 @@
 # What the résumé chatbot knows about Namare
 
 <!--
-Every "- " bullet is one fact. The chat route numbers them F1, F2, ... in
-file order, and every answer about Namare has to cite the facts it used, so
-keep each bullet to one self-contained, true statement. Headings group facts
-and are shown to the model as context. Edit freely; no IDs to maintain.
+Every "- " bullet is one fact. This file is everything the chatbot knows:
+the model answers from it, and the chat route only shows an answer made of
+the words and numbers in this file. Keep each bullet a true statement in
+plain words. To let the bot talk about something, add it here.
 -->
 
 ## Identity and contact
