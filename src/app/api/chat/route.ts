@@ -2,31 +2,24 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
 import {
-  ANSWER_SCHEMA,
   buildSystemPrompt,
+  buildVocabulary,
   decide,
-  OFF_TOPIC,
-  parseFacts,
-  type Draft,
-  type Fact,
+  knowledgeText,
+  OUT_OF_SCOPE,
+  type Vocabulary,
 } from '@/lib/chatbot'
 
 // Résumé chatbot, answered by Groq.
 //
-// The model never writes the reply directly. It fills in a form (Groq
-// structured outputs, strict mode): what kind of question this is, a draft
-// answer, and the IDs of the facts the answer rests on. decide() in
-// src/lib/chatbot.ts then chooses what the visitor sees:
-//   - greetings, off-topic requests and uncovered questions get fixed
-//     messages, whatever the model drafted;
-//   - answers about Namare are shown only if they cite real facts and stay
-//     short and plain (no tables, no code).
-// So a visitor who talks the model into drafting a project plan still never
-// sees one.
+// The model answers freely from content/chatbot/facts.md, so questions
+// worded any way still get an answer. What the visitor sees is decided by
+// code in src/lib/chatbot.ts, not by the model: an answer is shown only if
+// it is short, has no code or tables, and is made of the facts' own words
+// and numbers. Anything else (a project plan, code, trivia, invented specs)
+// gets a fixed out-of-scope reply, however the model was talked into it.
 //
-// What the bot knows lives in content/chatbot/facts.md, one fact per bullet.
-// Needs GROQ_API_KEY; GROQ_CHAT_MODEL overrides the model (it must support
-// strict structured outputs on Groq).
+// Needs GROQ_API_KEY; GROQ_CHAT_MODEL overrides the model.
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -39,8 +32,7 @@ const TEMPERATURE = 0.2
 const MAX_OUTPUT_TOKENS = 1024
 
 const MAX_QUESTION_CHARS = 500
-// Only the previous question and answer: enough for "tell me more", not
-// enough for a long back-and-forth to wear the rules down
+// Only the previous question and answer: enough for "tell me more"
 const MAX_HISTORY_TURNS = 2
 const MAX_TURN_CHARS = 800
 
@@ -50,15 +42,16 @@ const UNAVAILABLE =
 type Turn = { role: 'user' | 'assistant'; content: string }
 
 // Read once per server instance
-let facts: Map<string, Fact> | null = null
+let vocabulary: Vocabulary | null = null
 let systemPrompt = ''
-function getFacts(): Map<string, Fact> {
-  if (facts === null) {
+function load(): Vocabulary {
+  if (vocabulary === null) {
     const file = path.join(process.cwd(), 'content', 'chatbot', 'facts.md')
-    facts = parseFacts(readFileSync(file, 'utf8'))
-    systemPrompt = buildSystemPrompt(facts)
+    const knowledge = knowledgeText(readFileSync(file, 'utf8'))
+    vocabulary = buildVocabulary(knowledge)
+    systemPrompt = buildSystemPrompt(knowledge)
   }
-  return facts
+  return vocabulary
 }
 
 // Best-effort per-instance limit. Serverless instances don't share memory, so
@@ -92,11 +85,22 @@ function parseHistory(raw: unknown): Turn[] {
   return turns
 }
 
-// Returns null when the model couldn't finish the form within its limits
-async function draftAnswer(question: string, history: Turn[]): Promise<Draft | null> {
+// reason is safe to show (a short code); detail only goes to the logs
+class ChatError extends Error {
+  constructor(
+    readonly reason: string,
+    readonly detail: string,
+  ) {
+    super(`${reason}: ${detail}`)
+  }
+}
+
+// Returns null when the model ran out of room, which only happens when it
+// starts writing something long (code, a plan): treated as out of scope
+async function draftAnswer(question: string, history: Turn[]): Promise<string | null> {
   const key = process.env.GROQ_API_KEY
   if (!key) throw new ChatError('no_api_key', 'GROQ_API_KEY is not set')
-  getFacts()
+  load()
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -111,10 +115,6 @@ async function draftAnswer(question: string, history: Turn[]): Promise<Draft | n
       temperature: TEMPERATURE,
       max_tokens: MAX_OUTPUT_TOKENS,
       ...(REASONING_EFFORT && { reasoning_effort: REASONING_EFFORT }),
-      response_format: {
-        type: 'json_schema',
-        json_schema: { name: 'chat_answer', strict: true, schema: ANSWER_SCHEMA },
-      },
     }),
     signal: AbortSignal.timeout(20_000),
   })
@@ -124,29 +124,13 @@ async function draftAnswer(question: string, history: Turn[]): Promise<Draft | n
     try {
       code = JSON.parse(text).error?.code ?? ''
     } catch {}
-    // Groq rejects a form the model couldn't finish, usually because it
-    // started writing something long (code, a plan) into the answer and ran
-    // out of tokens. That is a refusal, not an outage.
-    if (res.status === 400 && code === 'json_validate_failed') return null
     throw new ChatError(`groq_${res.status}${code ? `_${code}` : ''}`, text.slice(0, 300))
   }
 
   const data = await res.json()
   const choice = data.choices?.[0]
   if (choice?.finish_reason === 'length') return null
-  const content = choice?.message?.content
-  if (!content) throw new ChatError('groq_no_content', JSON.stringify(choice).slice(0, 300))
-  return JSON.parse(content) as Draft
-}
-
-// reason is safe to show (a short code); detail only goes to the logs
-class ChatError extends Error {
-  constructor(
-    readonly reason: string,
-    readonly detail: string,
-  ) {
-    super(`${reason}: ${detail}`)
-  }
+  return choice?.message?.content ?? ''
 }
 
 export async function POST(request: Request) {
@@ -176,14 +160,16 @@ export async function POST(request: Request) {
   try {
     const draft = await draftAnswer(question, parseHistory(body.history))
     if (draft === null) {
-      console.info(`chat kind=unfinished q=${JSON.stringify(question.slice(0, 120))}`)
-      return NextResponse.json({ answer: OFF_TOPIC, kind: 'unfinished', model_used: GROQ_MODEL })
+      console.info(`chat verdict=unfinished q=${JSON.stringify(question.slice(0, 120))}`)
+      return NextResponse.json({ answer: OUT_OF_SCOPE, verdict: 'unfinished', model_used: GROQ_MODEL })
     }
-    const { kind, answer } = decide(draft, getFacts())
+    const { verdict, answer, grounding } = decide(draft, load())
     console.info(
-      `chat kind=${draft.kind}->${kind} facts=${draft.facts_used.join(',') || '-'} q=${JSON.stringify(question.slice(0, 120))}`,
+      `chat verdict=${verdict} new=${grounding ? grounding.share.toFixed(2) : '-'} ` +
+        `words=${grounding?.novel.slice(0, 12).join(',') || '-'} numbers=${grounding?.unknownNumbers.join(',') || '-'} ` +
+        `q=${JSON.stringify(question.slice(0, 120))}`,
     )
-    return NextResponse.json({ answer, kind, model_used: GROQ_MODEL })
+    return NextResponse.json({ answer, verdict, model_used: GROQ_MODEL })
   } catch (error) {
     console.error('Chat failed:', error)
     const reason = error instanceof ChatError ? error.reason : 'internal'
