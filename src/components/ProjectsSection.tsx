@@ -96,6 +96,24 @@ const moreWork: Card[] = [
     pin: 'bg-red-pen',
   },
   {
+    kind: 'Desktop app',
+    title: 'Pocketlink',
+    body: 'Drag a file onto the window and it’s on your phone. A COSMIC desktop app for files, notifications and clipboard, with its own Rust service speaking the KDE Connect protocol over Wi-Fi and Bluetooth.',
+    tags: 'Rust · libcosmic · D-Bus · TLS',
+    href: 'https://github.com/namaray/pocketlink',
+    linkLabel: 'GitHub',
+    pin: 'bg-[#3b82c4]',
+  },
+  {
+    kind: 'Android app · fork',
+    title: 'Pocketlink for Android',
+    body: 'The phone half of Pocketlink, built on a fork of KDE Connect for Android: its own app id, Bluetooth on by default, and a new Compose UI in progress.',
+    tags: 'Kotlin · Jetpack Compose',
+    href: 'https://github.com/namaray/pocketlink-android',
+    linkLabel: 'GitHub',
+    pin: 'bg-[#2f9e6a]',
+  },
+  {
     kind: 'Hackathon · team of 4',
     title: 'Oushudh Bondhu',
     body: 'Photograph a handwritten prescription; Gemma explains each medicine in plain Bangla and builds a dose timetable. I wrote the submission and drew the architecture and user flows.',
@@ -262,8 +280,12 @@ function IndexCard({ card, index }: { card: Card; index: number }) {
       className="relative index-card px-5 pt-3 pb-5 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_10px_24px_-12px_rgba(29,43,79,0.35)]"
     >
       <span aria-hidden className={`absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full ${card.pin} shadow-[inset_-2px_-2px_3px_rgba(0,0,0,0.25),0_2px_3px_rgba(0,0,0,0.25)]`} />
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-pencil h-[18px]">{card.kind}</p>
-      <h4 className="font-serif text-2xl font-semibold text-ink leading-[26px] h-[26px] mb-[12px] truncate">{card.title}</h4>
+      {/* Header covers the ruled lines and ends in the red rule. Long titles wrap; each extra
+          line adds exactly one 26px rule, so the text below stays on the lines. */}
+      <div className="-mx-5 -mt-3 px-5 pt-3 pb-[7px] mb-[12px] bg-[#fffefa] border-b-2 border-[#e9a3a0]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-pencil h-[18px]">{card.kind}</p>
+        <h4 className="font-serif text-2xl font-semibold text-ink leading-[26px]">{card.title}</h4>
+      </div>
       <p className="font-hand text-[22px] leading-[26px] text-ink-soft">{card.body}</p>
       <div className="mt-[26px] flex items-end justify-between gap-3 font-mono text-[11px] text-pencil leading-[26px]">
         <span>{card.tags}</span>
