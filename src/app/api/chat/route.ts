@@ -5,6 +5,7 @@ import {
   ANSWER_SCHEMA,
   buildSystemPrompt,
   decide,
+  OFF_TOPIC,
   parseFacts,
   type Draft,
   type Fact,
@@ -91,9 +92,10 @@ function parseHistory(raw: unknown): Turn[] {
   return turns
 }
 
-async function draftAnswer(question: string, history: Turn[]): Promise<Draft> {
+// Returns null when the model couldn't finish the form within its limits
+async function draftAnswer(question: string, history: Turn[]): Promise<Draft | null> {
   const key = process.env.GROQ_API_KEY
-  if (!key) throw new Error('GROQ_API_KEY is not set')
+  if (!key) throw new ChatError('no_api_key', 'GROQ_API_KEY is not set')
   getFacts()
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -116,12 +118,35 @@ async function draftAnswer(question: string, history: Turn[]): Promise<Draft> {
     }),
     signal: AbortSignal.timeout(20_000),
   })
-  if (!res.ok) throw new Error(`Groq ${res.status}: ${(await res.text()).slice(0, 300)}`)
+  if (!res.ok) {
+    const text = await res.text()
+    let code = ''
+    try {
+      code = JSON.parse(text).error?.code ?? ''
+    } catch {}
+    // Groq rejects a form the model couldn't finish, usually because it
+    // started writing something long (code, a plan) into the answer and ran
+    // out of tokens. That is a refusal, not an outage.
+    if (res.status === 400 && code === 'json_validate_failed') return null
+    throw new ChatError(`groq_${res.status}${code ? `_${code}` : ''}`, text.slice(0, 300))
+  }
 
   const data = await res.json()
-  const content = data.choices?.[0]?.message?.content
-  if (!content) throw new Error('Groq returned no content')
+  const choice = data.choices?.[0]
+  if (choice?.finish_reason === 'length') return null
+  const content = choice?.message?.content
+  if (!content) throw new ChatError('groq_no_content', JSON.stringify(choice).slice(0, 300))
   return JSON.parse(content) as Draft
+}
+
+// reason is safe to show (a short code); detail only goes to the logs
+class ChatError extends Error {
+  constructor(
+    readonly reason: string,
+    readonly detail: string,
+  ) {
+    super(`${reason}: ${detail}`)
+  }
 }
 
 export async function POST(request: Request) {
@@ -150,6 +175,10 @@ export async function POST(request: Request) {
 
   try {
     const draft = await draftAnswer(question, parseHistory(body.history))
+    if (draft === null) {
+      console.info(`chat kind=unfinished q=${JSON.stringify(question.slice(0, 120))}`)
+      return NextResponse.json({ answer: OFF_TOPIC, kind: 'unfinished', model_used: GROQ_MODEL })
+    }
     const { kind, answer } = decide(draft, getFacts())
     console.info(
       `chat kind=${draft.kind}->${kind} facts=${draft.facts_used.join(',') || '-'} q=${JSON.stringify(question.slice(0, 120))}`,
@@ -157,6 +186,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ answer, kind, model_used: GROQ_MODEL })
   } catch (error) {
     console.error('Chat failed:', error)
-    return NextResponse.json({ answer: UNAVAILABLE, model_used: '' }, { status: 503 })
+    const reason = error instanceof ChatError ? error.reason : 'internal'
+    return NextResponse.json({ answer: UNAVAILABLE, reason, model_used: '' }, { status: 503 })
   }
 }
