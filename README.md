@@ -29,5 +29,5 @@ GROQ_CHAT_MODEL=...
 | --- | --- |
 | `src/app/page.tsx` | Home page |
 | `src/components/` | Page sections |
-| `src/app/api/chat/route.ts`, `src/lib/chatbot.ts` | Résumé chatbot: the model fills in a structured form, and the code decides what visitors see |
-| `content/chatbot/facts.md` | What the chatbot knows: one fact per bullet. Answers about Namare must cite these facts |
+| `src/app/api/chat/route.ts`, `src/lib/chatbot.ts` | Résumé chatbot: the model answers freely, and code shows an answer only if it is made of the facts' own words and numbers |
+| `content/chatbot/facts.md` | Everything the chatbot knows, one fact per bullet |
