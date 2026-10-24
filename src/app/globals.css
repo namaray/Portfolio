@@ -102,14 +102,11 @@
   background-repeat: repeat-y;
 }
 
-/* Index card: red header rule, blue lines */
+/* Index card: blue lines; the red header rule is the header's own border
+   (see IndexCard), so it moves down when a title wraps */
 .index-card {
   background-color: #fffefa;
-  background-image:
-    linear-gradient(to bottom, transparent 47px, #e9a3a0 47px, #e9a3a0 49px, transparent 49px),
-    repeating-linear-gradient(to bottom, transparent 0 25px, #dbe8f4 25px 26px);
-  background-position: 0 0, 0 49px;
-  background-repeat: no-repeat, repeat;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 25px, #dbe8f4 25px 26px);
 }
 
 /* Chat panel: ruled paper without the margin line */
