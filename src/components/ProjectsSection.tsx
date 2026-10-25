@@ -13,9 +13,11 @@ type Project = {
   githubLink?: string;
   videoLink?: string;
   bgImage?: string;
-  caption: string;
+  caption?: string;
   imageClassName?: string;
   bgColor?: string;
+  // Replaces the single polaroid, for entries with several photos or a video
+  media?: React.ReactNode;
 };
 
 const projects: Project[] = [
@@ -62,18 +64,55 @@ const projects: Project[] = [
     caption: 'helpers, matched',
   },
   {
-    title: 'Maternify',
-    subtitle: 'Prenatal & postnatal health tracker',
-    stamp: 'Team project',
+    title: 'Last Light',
+    subtitle: 'A one-thumb neon arcade game for Android',
+    stamp: 'Solo build',
     did: [
-      'Symptom tracking for expecting and new mothers, with intelligent risk flags to help them monitor their health.',
-      'My role: main front-end designer.',
+      'Designed and built a one-thumb arcade game: drag to turn a shield around a glowing core, block incoming shapes, and let the healing light through.',
+      '8 levels, each with its own look and a new kind of enemy, plus 4 difficulties that pay more coins the harder they get.',
+      'Blocks build a combo and score multiplier; coins are earned in play only and unlock the next level.',
+      'Built in TypeScript on HTML Canvas and packaged for Android with Capacitor.',
     ],
-    tech: ['React', 'Python', 'AI APIs'],
-    bgImage: '/maternify.png',
-    caption: 'for new mums',
-    imageClassName: 'object-contain p-6',
-    bgColor: '#0f6e56',
+    tech: ['TypeScript', 'HTML Canvas', 'Capacitor', 'Android'],
+    media: (
+      <div className="space-y-8">
+        <Polaroid
+          src="/lastlight/showcase-wide.webp"
+          alt="Five Last Light screens: the menu, two gameplay moments, level select and a results screen"
+          caption="eight levels, one thumb"
+          rotate={2}
+          aspect="aspect-[16/9]"
+          bg="#120f22"
+        />
+        <div className="flex justify-center items-start gap-6 px-2">
+          <Polaroid
+            alt="Last Light gameplay video"
+            caption="press play ▶"
+            rotate={-3}
+            aspect="aspect-[9/16]"
+            bg="#000"
+            className="w-[48%] max-w-[230px]"
+          >
+            <iframe
+              src="https://www.youtube.com/embed/nh6KabXO1hI"
+              title="Last Light gameplay video"
+              className="absolute inset-0 w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </Polaroid>
+          <Polaroid
+            src="/lastlight/results.webp"
+            alt="Last Light results screen: 11,385 points, first clear and a new best"
+            caption="first clear!"
+            rotate={3}
+            aspect="aspect-[560/1214]"
+            bg="#120f22"
+            className="w-[40%] max-w-[190px] mt-10"
+          />
+        </div>
+      </div>
+    ),
   },
 ];
 
@@ -89,10 +128,19 @@ type Card = {
 
 const moreWork: Card[] = [
   {
-    kind: 'Android game',
-    title: 'Last Light',
-    body: 'A one-thumb neon arcade game: turn a shield around a glowing core to block incoming shapes, and let the healing light through. 8 levels, 4 difficulties.',
-    tags: 'TypeScript · Canvas · Capacitor',
+    kind: 'Research',
+    title: 'BanglaSlumNet',
+    body: 'Finding informal settlements in Dhaka from Sentinel-2 imagery, where optical-only models confuse dense formal areas with slums. Fuses a vision-language backbone with night lights, population and road data.',
+    tags: 'PyTorch · Earth Engine · VLMs',
+    href: 'https://github.com/namaray/BanglaSlumNet',
+    linkLabel: 'GitHub',
+    pin: 'bg-red-pen',
+  },
+  {
+    kind: 'Health tech · team',
+    title: 'Maternify',
+    body: 'Symptom tracking for expecting and new mothers, with risk flags to help them monitor their health. I was the main front-end designer.',
+    tags: 'React · Python · AI APIs',
     pin: 'bg-red-pen',
   },
   {
@@ -135,15 +183,6 @@ const moreWork: Card[] = [
     body: 'An offline viewer for Android SMS / MMS / RCS backups that looks like Google Messages. Nothing is uploaded, and the Android version asks for zero permissions.',
     tags: 'JavaScript · IndexedDB · Android',
     pin: 'bg-[#e0a526]',
-  },
-  {
-    kind: 'Research',
-    title: 'BanglaSlumNet',
-    body: 'Finding informal settlements in Dhaka from Sentinel-2 imagery, where optical-only models confuse dense formal areas with slums. Fuses a vision-language backbone with night lights, population and road data.',
-    tags: 'PyTorch · Earth Engine · VLMs',
-    href: 'https://github.com/namaray/BanglaSlumNet',
-    linkLabel: 'GitHub',
-    pin: 'bg-red-pen',
   },
   {
     kind: 'Research · team',
@@ -203,25 +242,27 @@ function ProjectEntry({ project, index }: { project: Project; index: number }) {
       className={`flex flex-col ${flip ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-start py-14 md:py-16 border-b border-dashed border-pencil/30 last:border-b-0`}
     >
       <div className="w-full lg:w-[48%] shrink-0 px-2 lg:pt-4">
-        <Polaroid
-          src={project.bgImage}
-          alt={project.title}
-          caption={project.caption}
-          rotate={flip ? 2 : -2}
-          imageClassName={project.imageClassName}
-          bg={project.bgColor}
-          aspect="aspect-[16/10]"
-        >
-          {project.videoLink ? (
-            <iframe
-              src={project.videoLink}
-              title={`${project.title} video`}
-              className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : undefined}
-        </Polaroid>
+        {project.media ?? (
+          <Polaroid
+            src={project.bgImage}
+            alt={project.title}
+            caption={project.caption}
+            rotate={flip ? 2 : -2}
+            imageClassName={project.imageClassName}
+            bg={project.bgColor}
+            aspect="aspect-[16/10]"
+          >
+            {project.videoLink ? (
+              <iframe
+                src={project.videoLink}
+                title={`${project.title} video`}
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : undefined}
+          </Polaroid>
+        )}
       </div>
 
       <div className="w-full lg:w-[52%]">

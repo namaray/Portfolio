@@ -90,7 +90,9 @@ plain words. To let the bot talk about something, add it here.
 - Maternify tech: React, Python, AI APIs.
 
 ## Other work
-- Last Light is his one-thumb neon arcade game for Android: turn a shield around a glowing core to block incoming shapes and let the healing light through. It has 8 levels and 4 difficulties, and is built with TypeScript, HTML Canvas and Capacitor.
+- Last Light is his one-thumb neon arcade game for Android, a solo build: drag to turn a shield around a glowing core, block incoming shapes, and let the healing light through. It is built with TypeScript, HTML Canvas and Capacitor.
+- Last Light has 8 levels, each with its own look and a new kind of enemy, and 4 difficulties that pay more coins the harder they get. Blocks build a combo and score multiplier; coins are earned in play only and unlock the next level.
+- A gameplay video of Last Light is on the portfolio, and the game's code is in a private repository.
 - Pocketlink is his desktop app that connects a phone and a computer, built for the COSMIC desktop: drag a file onto the window and it's on the phone, see and reply to phone notifications, share the clipboard, ring a lost phone, and browse the phone's files.
 - Pocketlink has its own background service written in Rust that speaks the KDE Connect protocol (version 8), over Wi-Fi (UDP discovery and TLS) and Bluetooth, so it works with the KDE Connect app on Android and iOS without KDE Connect installed on the computer.
 - Pocketlink pairs devices with a code shown on both screens and pins each device's certificate. It is built with Rust, libcosmic and D-Bus, is licensed GPL-3.0, and is on GitHub at github.com/namaray/pocketlink.
