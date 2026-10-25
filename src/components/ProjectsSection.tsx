@@ -128,6 +128,15 @@ type Card = {
 
 const moreWork: Card[] = [
   {
+    kind: 'Research',
+    title: 'BanglaSlumNet',
+    body: 'Finding informal settlements in Dhaka from Sentinel-2 imagery, where optical-only models confuse dense formal areas with slums. Fuses a vision-language backbone with night lights, population and road data.',
+    tags: 'PyTorch · Earth Engine · VLMs',
+    href: 'https://github.com/namaray/BanglaSlumNet',
+    linkLabel: 'GitHub',
+    pin: 'bg-red-pen',
+  },
+  {
     kind: 'Health tech · team',
     title: 'Maternify',
     body: 'Symptom tracking for expecting and new mothers, with risk flags to help them monitor their health. I was the main front-end designer.',
@@ -174,15 +183,6 @@ const moreWork: Card[] = [
     body: 'An offline viewer for Android SMS / MMS / RCS backups that looks like Google Messages. Nothing is uploaded, and the Android version asks for zero permissions.',
     tags: 'JavaScript · IndexedDB · Android',
     pin: 'bg-[#e0a526]',
-  },
-  {
-    kind: 'Research',
-    title: 'BanglaSlumNet',
-    body: 'Finding informal settlements in Dhaka from Sentinel-2 imagery, where optical-only models confuse dense formal areas with slums. Fuses a vision-language backbone with night lights, population and road data.',
-    tags: 'PyTorch · Earth Engine · VLMs',
-    href: 'https://github.com/namaray/BanglaSlumNet',
-    linkLabel: 'GitHub',
-    pin: 'bg-red-pen',
   },
   {
     kind: 'Research · team',
