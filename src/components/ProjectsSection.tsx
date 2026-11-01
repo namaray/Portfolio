@@ -44,7 +44,7 @@ const projects: Project[] = [
         <Polaroid
           src="/argus/v5-cameras.webp"
           alt="Close-up of the cameras on the ARGUS v5 frame: two stereo cameras on green Arducam boards and a wide camera between them"
-          caption="2 stereo cameras and 1 wide camera"
+          caption="1x wide camera + 2x stereo cameras"
           rotate={3}
           aspect="aspect-[3/4]"
           className="w-[50%] ml-auto -mt-28"

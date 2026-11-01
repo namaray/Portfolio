@@ -62,7 +62,7 @@ plain words. To let the bot talk about something, add it here.
 
 ## Project: ARGUS (AI-powered smart glasses for the visually impaired)
 - ARGUS is his ongoing undergraduate thesis: on-device AI navigation glasses for people with visual impairments.
-- ARGUS has a custom 3D-printed frame that houses the cameras and compute. The v5 frame carries 2 stereo cameras and 1 wide camera.
+- ARGUS has a custom 3D-printed frame that houses the cameras and compute. The v5 frame carries 1x wide camera and 2x stereo cameras.
 - ARGUS is supervised by Dr. Novia Nurain, Assistant Professor, CSE, BUET.
 - For ARGUS he led the initial planning: the problem scope, system requirements and hardware selection.
 - For ARGUS he planned and moderated a focus group discussion with visually impaired participants to gather their needs.
