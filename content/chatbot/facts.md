@@ -20,10 +20,10 @@ plain words. To let the bot talk about something, add it here.
 - He is a final-year Computer Science and Engineering student at United International University (UIU) in Dhaka, graduating in November 2026.
 - He works in HCI (human-computer interaction), building accessible technology, from AI-powered embedded hardware to web apps, and testing it with the people who will use it.
 - He designs AI-enabled assistive systems and evaluates them through focus group discussions and usability studies.
+- His main projects are the Portable Braille Printer and ARGUS. On both, his team worked with visually impaired participants through focus groups and usability studies, turning what people said into design requirements.
 - His accessible technology work includes smart glasses for people with visual impairments (ARGUS) and a portable Braille printer.
 
 ## How he works
-- Most of his projects start with a conversation, not code.
 - Step 1, listen: focus groups and interviews with the people a project is for.
 - Step 2, define: turn what people said into requirements, using thematic analysis (Taguette) and written specifications.
 - Step 3, build: whatever the project needs, from perception pipelines on a Jetson Orin Nano and stepper-motor rigs on a Raspberry Pi to 3D-printed housings and web apps.
