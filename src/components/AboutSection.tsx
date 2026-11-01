@@ -30,9 +30,9 @@ export default function AboutSection() {
             hardware to web apps, and testing it with the people who&apos;ll use it.
           </p>
           <p>
-            Most of my projects start with a <Underline>conversation, not code</Underline>. For ARGUS and the
-            Braille printer I planned and moderated focus groups with visually impaired participants, ran usability
-            studies, and used thematic analysis to turn what people said into design requirements.
+            My <Underline>main projects</Underline> are the Portable Braille Printer and ARGUS. On both, my team worked
+            with visually impaired participants through focus groups and usability studies, turning what people said
+            into design requirements.
           </p>
           <p>
             Then I build the thing: perception pipelines on a <Circled>Jetson</Circled> Orin Nano, stepper-motor
