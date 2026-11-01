@@ -43,8 +43,8 @@ const projects: Project[] = [
         />
         <Polaroid
           src="/argus/v5-cameras.webp"
-          alt="Close-up of the three cameras on the ARGUS v5 frame: two green Arducam boards and a black camera between them"
-          caption="three eyes"
+          alt="Close-up of the cameras on the ARGUS v5 frame: two stereo cameras on green Arducam boards and a wide camera between them"
+          caption="2 stereo cameras and 1 wide camera"
           rotate={3}
           aspect="aspect-[3/4]"
           className="w-[50%] ml-auto -mt-28"
@@ -74,14 +74,24 @@ const projects: Project[] = [
             allowFullScreen
           />
         </Polaroid>
-        <Polaroid
-          src="/braille/printer-mechanism.webp"
-          alt="Inside the Portable Braille Printer: pink 3D-printed carriage parts and steel rods above a sheet of embossed paper"
-          caption="dots on paper"
-          rotate={-2}
-          aspect="aspect-[16/9]"
-          className="w-[80%] ml-auto"
-        />
+        <div className="flex items-start">
+          <Polaroid
+            src="/braille/printer-full.webp"
+            alt="The Portable Braille Printer on a table: a clear acrylic case with pink 3D-printed parts and a sheet of paper, wired to a Raspberry Pi"
+            caption="the whole printer"
+            rotate={-2}
+            aspect="aspect-[16/9]"
+            className="w-[60%] shrink-0"
+          />
+          <Polaroid
+            src="/braille/printer-mechanism.webp"
+            alt="Inside the Portable Braille Printer: pink 3D-printed carriage parts and steel rods above a sheet of embossed paper"
+            caption="dots on paper"
+            rotate={3}
+            aspect="aspect-[16/9]"
+            className="w-[46%] shrink-0 -ml-[6%] mt-12"
+          />
+        </div>
       </div>
     ),
   },
