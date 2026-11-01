@@ -11,7 +11,6 @@ type Project = {
   did: string[];
   tech: string[];
   githubLink?: string;
-  videoLink?: string;
   bgImage?: string;
   caption?: string;
   imageClassName?: string;
@@ -32,8 +31,26 @@ const projects: Project[] = [
       'Wired up the voice interface: Whisper speech recognition, a quantized on-device LLM for commands, and TTS.',
     ],
     tech: ['Jetson Orin Nano', 'Stereo depth', 'YOLO', 'Whisper', 'Quantized LLMs', '3D printing'],
-    bgImage: '/argus-v2.png',
-    caption: 'ARGUS v2',
+    media: (
+      <div>
+        <Polaroid
+          src="/argus/v5-goggles.webp"
+          alt="ARGUS v5: a pink 3D-printed goggle frame with three cameras mounted on top"
+          caption="ARGUS v5"
+          rotate={-2}
+          aspect="aspect-[3/4]"
+          className="w-[68%]"
+        />
+        <Polaroid
+          src="/argus/v5-cameras.webp"
+          alt="Close-up of the three cameras on the ARGUS v5 frame: two green Arducam boards and a black camera between them"
+          caption="three eyes"
+          rotate={3}
+          aspect="aspect-[3/4]"
+          className="w-[50%] ml-auto -mt-28"
+        />
+      </div>
+    ),
   },
   {
     title: 'Portable Braille Printer',
@@ -46,8 +63,27 @@ const projects: Project[] = [
     ],
     tech: ['Raspberry Pi', 'Python', 'OCR', 'Stepper motors', 'MOSFETs', '3D printing'],
     githubLink: 'https://github.com/namaray/Portable-Braille-Printer',
-    videoLink: 'https://www.youtube.com/embed/iy1dZGjbnOs',
-    caption: 'press play ▶',
+    media: (
+      <div className="space-y-8">
+        <Polaroid alt="Portable Braille Printer video" caption="press play ▶" rotate={2} aspect="aspect-[16/10]">
+          <iframe
+            src="https://www.youtube.com/embed/iy1dZGjbnOs"
+            title="Portable Braille Printer video"
+            className="absolute inset-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </Polaroid>
+        <Polaroid
+          src="/braille/printer-mechanism.webp"
+          alt="Inside the Portable Braille Printer: pink 3D-printed carriage parts and steel rods above a sheet of embossed paper"
+          caption="dots on paper"
+          rotate={-2}
+          aspect="aspect-[16/9]"
+          className="w-[80%] ml-auto"
+        />
+      </div>
+    ),
   },
   {
     title: 'ShareStrength',
@@ -251,17 +287,7 @@ function ProjectEntry({ project, index }: { project: Project; index: number }) {
             imageClassName={project.imageClassName}
             bg={project.bgColor}
             aspect="aspect-[16/10]"
-          >
-            {project.videoLink ? (
-              <iframe
-                src={project.videoLink}
-                title={`${project.title} video`}
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : undefined}
-          </Polaroid>
+          />
         )}
       </div>
 
