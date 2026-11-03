@@ -9,7 +9,7 @@ const timeline = [
     kind: 'School',
     title: 'B.Sc. Computer Science & Engineering',
     place: 'United International University',
-    detail: 'Graduating Nov 2026 (expected).',
+    detail: 'Graduated Nov 2026.',
     grade: 'CGPA 3.93 / 4.00',
   },
   {

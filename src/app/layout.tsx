@@ -23,7 +23,7 @@ const plexMono = IBM_Plex_Mono({
 const title = 'Namare Shakib Angkon | CSE Portfolio'
 
 const description =
-  'A dedicated Computer Science and Engineering student at United International University, with focus on Machine Learning, Computer Vision, Blockchain and Cryptography.'
+  'Computer Science and Engineering graduate from United International University, working in HCI and building accessible technology, from AI-powered embedded hardware to web apps.'
 
 const url = process.env.NEXT_PUBLIC_SITE_URL
 

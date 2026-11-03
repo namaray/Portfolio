@@ -24,7 +24,7 @@ export default function AboutSection() {
           className="space-y-7 text-xl md:text-2xl leading-[1.6] text-ink-soft max-w-[40rem]"
         >
           <p>
-            I&apos;m a final-year Computer Science &amp; Engineering student at{' '}
+            I&apos;m a Computer Science &amp; Engineering graduate from{' '}
             <span className="text-ink font-medium">United International University</span>. I work in{' '}
             <Highlight color="blue">HCI</Highlight>, building accessible technology, from AI-powered embedded
             hardware to web apps, and testing it with the people who&apos;ll use it.
@@ -48,7 +48,7 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <span className="text-red-pen">CGPA 3.93</span> / 4.00, graduating Nov 2026
+            <span className="text-red-pen">CGPA 3.93</span> / 4.00, graduated Nov 2026
           </motion.p>
           <motion.p
             initial={{ opacity: 0, rotate: 0 }}
