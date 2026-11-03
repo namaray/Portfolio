@@ -23,7 +23,7 @@ const projects: Project[] = [
   {
     title: 'ARGUS',
     subtitle: 'AI-powered smart glasses for the visually impaired',
-    stamp: 'Ongoing thesis',
+    stamp: 'Undergraduate thesis',
     did: [
       'Scoped the problem, requirements and hardware for on-device navigation glasses with a custom 3D-printed frame.',
       'Planned and moderated a focus group with visually impaired participants to gather their needs.',

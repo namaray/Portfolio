@@ -6,7 +6,7 @@ import { Polaroid, StickyNote } from '@/components/Notebook/Paper';
 
 const TITLES = ['researcher', 'engineer', 'designer', 'developer'];
 
-// "Student + ___": each word gets scribbled out in red pen before the next is written in
+// "CSE graduate + ___": each word gets scribbled out in red pen before the next is written in
 function ScribbledTitle() {
   const [index, setIndex] = useState(0);
   const [struck, setStruck] = useState(false);
@@ -105,7 +105,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="font-hand text-4xl md:text-5xl text-ink-soft mt-6 md:mt-8"
           >
-            Student + <ScribbledTitle />
+            CSE graduate + <ScribbledTitle />
           </motion.p>
 
           <motion.p
@@ -114,7 +114,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-8 max-w-[34rem] text-xl md:text-2xl leading-relaxed text-ink-soft"
           >
-            Final-year CSE student at United International University. I build{' '}
+            Studied CSE at United International University. I build{' '}
             <Highlight>accessible technology</Highlight> — smart glasses for people with visual impairments, a
             portable Braille printer — and I <Highlight color="pink">test it with the people</Highlight> who will
             use it.
@@ -165,9 +165,9 @@ export default function HeroSection() {
           <Arrow className="hidden lg:block absolute -left-24 top-24 w-24 -scale-x-100 rotate-[200deg]" />
 
           <StickyNote rotate={-4} className="mt-10 lg:mt-0 lg:absolute lg:-left-16 lg:-bottom-32 w-60 mx-auto">
-            <p className="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-1">Right now</p>
+            <p className="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-1">Latest build</p>
             <p className="font-hand text-[26px] leading-[1.1] text-ink">
-              Building <strong>ARGUS</strong>: on-device AI glasses that help visually impaired people navigate. (My thesis!)
+              <strong>ARGUS</strong>: on-device AI glasses that help visually impaired people navigate. (My thesis!)
             </p>
           </StickyNote>
         </div>
