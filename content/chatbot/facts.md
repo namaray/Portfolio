@@ -17,7 +17,7 @@ plain words. To let the bot talk about something, add it here.
 - He is looking for research and engineering roles in HCI, accessibility and applied AI.
 
 ## Summary
-- He is a final-year Computer Science and Engineering student at United International University (UIU) in Dhaka, graduating in November 2026.
+- He is a Computer Science and Engineering graduate from United International University (UIU) in Dhaka. He graduated in November 2026.
 - He works in HCI (human-computer interaction), building accessible technology, from AI-powered embedded hardware to web apps, and testing it with the people who will use it.
 - He designs AI-enabled assistive systems and evaluates them through focus group discussions and usability studies.
 - His main projects are the Portable Braille Printer and ARGUS. On both, his team worked with visually impaired participants through focus groups and usability studies, turning what people said into design requirements.
@@ -31,7 +31,7 @@ plain words. To let the bot talk about something, add it here.
 - He values accessibility and impact, hardware and software working together, and honest evaluation that doesn't overstate results.
 
 ## Education
-- B.Sc. in Computer Science and Engineering at United International University (UIU), School of Science and Engineering, June 2022 to November 2026 (expected).
+- B.Sc. in Computer Science and Engineering at United International University (UIU), School of Science and Engineering, June 2022 to November 2026.
 - His CGPA at UIU is 3.93 out of 4.00.
 - At UIU he received a 50% tuition waiver four times and a 25% tuition waiver twice.
 - International Advanced Level (IAL / A-Levels) at Singapore International School, 2021, with results 1A 2B.
@@ -61,7 +61,7 @@ plain words. To let the bot talk about something, add it here.
 - BDT 20,000 pre-seed funding for ShareStrength from Launchpad by UIHP@UIU, through the DEIED project supported by the ICT Division and the World Bank.
 
 ## Project: ARGUS (AI-powered smart glasses for the visually impaired)
-- ARGUS is his ongoing undergraduate thesis: on-device AI navigation glasses for people with visual impairments.
+- ARGUS is his undergraduate thesis: on-device AI navigation glasses for people with visual impairments.
 - ARGUS has a custom 3D-printed frame that houses the cameras and compute. The v5 frame carries 1x wide camera and 2x stereo cameras.
 - ARGUS is supervised by Dr. Novia Nurain, Assistant Professor, CSE, BUET.
 - For ARGUS he led the initial planning: the problem scope, system requirements and hardware selection.

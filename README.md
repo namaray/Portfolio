@@ -1,6 +1,6 @@
 # Namare Shakib Angkon — Portfolio
 
-Personal portfolio of Namare Shakib Angkon, final-year CSE student at United International University.
+Personal portfolio of Namare Shakib Angkon, CSE graduate from United International University.
 
 - **Live:** https://namare-portfolio.vercel.app
 
