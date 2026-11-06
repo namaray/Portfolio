@@ -183,6 +183,15 @@ const moreWork: Card[] = [
     pin: 'bg-red-pen',
   },
   {
+    kind: 'Buildathon · solo',
+    title: 'Eta Ki Scam?',
+    body: 'Send a screenshot of a suspicious message and see what looks wrong and what to do next, in Bangla or English. Rule checks and AI combine into one verdict; on 99 test messages it flagged 29 of 33 scams.',
+    tags: 'Next.js · Groq · Vercel AI SDK',
+    href: 'https://eta-ki-scam.vercel.app',
+    linkLabel: 'live app',
+    pin: 'bg-[#e0a526]',
+  },
+  {
     kind: 'Health tech · team',
     title: 'Maternify',
     body: 'Symptom tracking for expecting and new mothers, with risk flags to help them monitor their health. I was the main front-end designer.',
